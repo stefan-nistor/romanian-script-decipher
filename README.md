@@ -12,3 +12,6 @@ An Interdisciplinary Approach Using Deep Learning and Natural Language Processin
 - Ștefan Nistor
 - Ștefan Roman
 - Ioana Bianca Ursu
+
+# Documents and Resources
+- [State-of-the-art + Risk Assessment](https://docs.google.com/document/d/1DDBpgz3gNW57hlS05ogwZ1Yii4meucEgetBLj5s9WPs/edit?usp=sharing)
