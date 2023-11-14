@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Annotation Project</title>
+    <script src="../javascript/image_processing.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/image_processing.css" />
+  </head>
+  <body>
+    <h1 style="text-align: center">Manuscript Processing Page</h1>
+    <div class="main-container">
+      <!-- Left Side: Display Random Image -->
+      <div class="left-panel" id="left-panel">
+        <div id="image-container"></div>
+      </div>
+      <!-- Right Side: Metadata Form -->
+      <div class="right-panel">
+        <h2>Image Metadata</h2>
+        <textarea
+          id="text-input"
+          placeholder="Enter your text here..."
+        ></textarea>
+        <div class="button-container">
+          <button id="clearButton">Clear</button>
+          <button>Save</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
