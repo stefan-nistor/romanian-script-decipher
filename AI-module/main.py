@@ -8,9 +8,29 @@ app = FastAPI()
 class Manuscript(BaseModel):
     name: str
     path: str
-    process: bool
+    process: object
     image_bytes: bytes
+    type_of_processing: str
 
+
+class Recognition(BaseModel):
+    path_to_file: str
+    methods: classmethod
+    processed_output: dict
+
+
+class OCR(Recognition):
+    pass
+
+
+class HTR(Recognition):
+    pass
+
+
+class NLP(BaseModel):
+    enhance: bool
+    raw_output: str
+    enhanced_output : str
 
 @app.get("/")
 async def index():
