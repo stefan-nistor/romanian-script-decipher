@@ -13,9 +13,11 @@ import ro.uaic.info.romandec.repository.ManuscriptRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,6 +27,8 @@ public class ManuscriptService {
     private final ManuscriptRepository manuscriptRepository;
 
     private final ManuscriptMetadataRepository manuscriptMetadataRepository;
+
+    private final String databaseDirectory = "../Database/";
 
     @Autowired
     public ManuscriptService(ManuscriptRepository manuscriptRepository,
@@ -41,7 +45,6 @@ public class ManuscriptService {
             throw new InvalidDataException("Invalid images for initialization");
         }
 
-        String dataDirectory = "../Database/";
         for (MultipartFile image : images) {
             String originalFilename = image.getOriginalFilename();
             String filenameWithoutExtension = extractFilenameWithoutExtension(originalFilename);
@@ -50,7 +53,7 @@ public class ManuscriptService {
                 continue;
             }
 
-            Path directoryPath = Paths.get(dataDirectory, filenameWithoutExtension);
+            Path directoryPath = Paths.get(databaseDirectory, filenameWithoutExtension);
             try {
                 if (!Files.exists(directoryPath)) {
                     Files.createDirectories(directoryPath);
@@ -110,18 +113,37 @@ public class ManuscriptService {
 
     private String getDecipheredTranscriptFilename(String filename)
     {
-        int dotIndex = filename.lastIndexOf(".");
-        if (dotIndex >= 0) {
-            String fileExtension = filename.substring(dotIndex);
-            String fileNameWithoutExtension = filename.substring(0, dotIndex);
-
-            return fileNameWithoutExtension + "_deciphered" + fileExtension;
-        } else {
-            return null;
-        }
+        return filename.split("\\.")[0] + ".txt";
     }
 
 
+    public void saveAnnotatorDecipheredManuscript(String originalImageFilename, String decipheredText)
+    throws InvalidDataException, IOException
+    {
+        String filenameWithoutExtension = extractFilenameWithoutExtension(originalImageFilename);
+        Path imageDirectory = Paths.get(databaseDirectory, filenameWithoutExtension);
 
+        if (!Files.exists(imageDirectory))
+        {
+            throw new InvalidDataException("This image does not a directory associated");
+        }
 
+        Path filePath = imageDirectory.resolve(Objects.requireNonNull(getDecipheredTranscriptFilename(originalImageFilename)) );
+
+        try
+        {
+            Path imageCompletePath = imageDirectory.resolve(originalImageFilename);
+
+            Manuscript manuscript = manuscriptRepository.getManuscriptByPathToImage(imageCompletePath.toAbsolutePath().toString());
+            manuscript.setPathToDecipheredText(filePath.toAbsolutePath().toString());
+            manuscriptRepository.save(manuscript);
+
+            Files.writeString(filePath, decipheredText,
+                    StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Error at creating the file with the deciphered text");
+        }
+    }
 }

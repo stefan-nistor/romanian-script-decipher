@@ -22,8 +22,24 @@
           placeholder="Enter your text here..."
         ></textarea>
         <div class="button-container">
-          <button id="clearButton">Clear</button>
-          <button>Save</button>
+          <button id="saveButton" onclick="showPopup() ">Save</button>
+          <button id="clearButton" onclick="clearTextArea()">Clear</button>
+        </div>
+
+        <div class="popup" id="savingPopup">
+          <p>Do you want to save changes?</p>
+          <button onclick="saveChanges()">Save</button>
+          <button onclick="closePopup('savingPopup')">Cancel</button>
+        </div>
+
+        <div id="successPopup" class="popup">
+          <p>Data saved successfully!</p>
+          <button onclick="closePopup('successPopup')">OK</button>
+        </div>
+
+        <div id="failurePopup" class="popup" ">
+          <p>Failed to save data.</p>
+          <button onclick="closePopup('failurePopup')">OK</button>
         </div>
       </div>
     </div>

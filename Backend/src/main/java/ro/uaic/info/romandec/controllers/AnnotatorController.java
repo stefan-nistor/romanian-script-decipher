@@ -5,9 +5,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ro.uaic.info.romandec.exceptions.InvalidDataException;
 import ro.uaic.info.romandec.exceptions.NoAvailableImageForAnnotator;
 import ro.uaic.info.romandec.services.ManuscriptService;
 
@@ -53,4 +52,34 @@ public class AnnotatorController {
 
         return response;
     }
+
+    @PostMapping
+    public ResponseEntity<?> saveAnnotatorDecipheredManuscript(
+            @RequestParam("originalImageFilename") String originalImageFilename,
+            @RequestParam("decipheredText") String decipheredText)
+    {
+        ResponseEntity<?> response;
+
+        try
+        {
+            if (originalImageFilename == null || originalImageFilename.isEmpty() ||
+                decipheredText == null || decipheredText.isEmpty())
+            {
+                throw new InvalidDataException("Incorrect data for saving your deciphered text!");
+            }
+
+            manuscriptService.saveAnnotatorDecipheredManuscript(originalImageFilename, decipheredText);
+
+            response = ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("");
+        }
+        catch (InvalidDataException | IOException e)
+        {
+            response = ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+
+        return response;
+    }
+
 }

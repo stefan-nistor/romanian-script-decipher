@@ -19,14 +19,15 @@ import java.util.UUID;
 @Builder
 @ToString
 @Table(name = "manuscripts")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Manuscript {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String pathToImage;
-    private String pathToAnnotatedImage;
-    private byte[] imageBytes;
+    private String pathToDecipheredText;
 
     @OneToOne
     private ManuscriptMetadata manuscriptMetadata;

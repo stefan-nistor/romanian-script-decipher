@@ -3,9 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   fetchAndDisplayImage();
   clearTextArea();
-  document
-    .getElementById("clearButton")
-    .addEventListener("click", clearTextArea);
 });
 
 function fetchAndDisplayImage() {
@@ -19,7 +16,6 @@ function fetchAndDisplayImage() {
 
         // Log the headers or use them as needed
         original_filename = contentDisposition.match(/filename="([^"]+)"/)[1];
-        console.log(original_filename);
         return response.blob();
       }
       throw new Error("Network response was not ok.");
@@ -38,4 +34,43 @@ function fetchAndDisplayImage() {
 function clearTextArea() {
   // Assuming your textarea has an ID of 'textarea'
   document.getElementById("text-input").value = "";
+}
+
+function showPopup() {
+  var popup = document.getElementById("savingPopup");
+  var overlay = document.getElementById("overlay");
+  popup.style.display = "block";
+}
+
+function closePopup(popupId) {
+  document.getElementById(popupId).style.display = "none";
+
+  if (popupId != "savingPopup") {
+    location.reload();
+  }
+}
+
+function saveChanges() {
+  var textEntered = document.getElementById("text-input").value;
+
+  fetch("http://localhost:8080/api/annotator", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      originalImageFilename: original_filename,
+      decipheredText: textEntered,
+    }),
+  }).then((response) => {
+    showResponsePopup(response.status);
+  });
+}
+
+function showResponsePopup(responseStatus) {
+  closePopup("savingPopup");
+  console.log(responseStatus);
+  responseStatus === 200
+    ? (document.getElementById("successPopup").style.display = "block")
+    : (document.getElementById("failurePopup").style.display = "block");
 }
