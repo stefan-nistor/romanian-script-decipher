@@ -9,10 +9,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
-
-import static org.springframework.security.config.Customizer.withDefaults;
-
 
 @Configuration
 @EnableWebSecurity
@@ -20,15 +16,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(AbstractHttpConfigurer::disable) // Enable CORS
-                .authorizeRequests(authz -> authz
-                        .requestMatchers("/api/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .httpBasic(withDefaults())
 
-                .csrf(AbstractHttpConfigurer::disable); // Disable CSRF
+        http.csrf(AbstractHttpConfigurer::disable);
+        http.cors(AbstractHttpConfigurer::disable);
+
+        http.authorizeHttpRequests((authorize) ->
+                authorize.requestMatchers("/api/auth/**").permitAll()
+                         .anyRequest().authenticated()
+        );
 
         return http.build();
     }
@@ -47,9 +42,5 @@ public class SecurityConfig {
         };
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
-//        return new
-//    }
 
 }
