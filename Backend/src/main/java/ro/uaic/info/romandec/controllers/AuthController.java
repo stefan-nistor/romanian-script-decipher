@@ -1,5 +1,6 @@
 package ro.uaic.info.romandec.controllers;
 
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ro.uaic.info.romandec.models.dtos.LoginDto;
 import ro.uaic.info.romandec.models.dtos.RegisterDto;
 import ro.uaic.info.romandec.services.impl.UserDetailServiceImpl;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -42,7 +46,17 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getEmail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User logged-in successfully.", HttpStatus.OK);
+        var userDetails = (UserDetails) authentication.getPrincipal();
+        return new ResponseEntity<>(generateJwt(userDetails), HttpStatus.OK);
+    }
+
+    private String generateJwt(UserDetails userDetails) {
+        return "Bearer " + Jwts.builder()
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 900000))
+                .signWith(Jwts.SIG.HS512.key().build()) // currently the signing key is generated at each request. fix needed
+                .compact();
     }
 
 }
