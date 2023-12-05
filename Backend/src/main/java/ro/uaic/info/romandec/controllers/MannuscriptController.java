@@ -16,7 +16,7 @@ public class MannuscriptController {
     @Autowired
     private ManuscriptService manuscriptService;
 
-    public ResponseEntity<?> uploadMannuscript(@RequestBody Manuscript manuscript) {
+    public ResponseEntity<?> uploadManuscript(@RequestBody Manuscript manuscript) {
         return ResponseEntity.accepted().build();
     }
 

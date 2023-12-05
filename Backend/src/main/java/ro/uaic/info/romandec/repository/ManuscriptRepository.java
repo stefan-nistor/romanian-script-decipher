@@ -4,6 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ro.uaic.info.romandec.models.Manuscript;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 public interface ManuscriptRepository extends JpaRepository<Manuscript,Integer> {
 
     @Query(value = "SELECT path_to_image FROM manuscripts WHERE " +
@@ -12,4 +16,8 @@ public interface ManuscriptRepository extends JpaRepository<Manuscript,Integer> 
     String getRandomNotDecipheredManuscript();
 
     Manuscript getManuscriptByPathToImage(String pathToOriginalImage);
+
+    Optional<Manuscript> getManuscriptByIdAndNameAndUserId(UUID id, String name, UUID userId);
+
+    List<Manuscript> getAllByUserId(UUID userId);
 }

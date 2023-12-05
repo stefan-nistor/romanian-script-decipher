@@ -5,11 +5,16 @@ import org.springframework.stereotype.Service;
 import ro.uaic.info.romandec.repository.UserRepository;
 import ro.uaic.info.romandec.models.User;
 
+import java.util.UUID;
+
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     public User createUser(User userDto) {
         return new User();
@@ -23,4 +28,7 @@ public class UserService {
         return new User();
     }
 
+    public UUID getTestUserUUID() {
+        return userRepository.getFirstByIdNotNull().getId();
+    }
 }
