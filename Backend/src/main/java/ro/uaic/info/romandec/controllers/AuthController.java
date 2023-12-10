@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ro.uaic.info.romandec.models.dtos.LoginDto;
 import ro.uaic.info.romandec.models.dtos.RegisterDto;
-import ro.uaic.info.romandec.services.impl.UserDetailServiceImpl;
+import ro.uaic.info.romandec.services.UserDetailServiceImpl;
 
 @RestController
 @RequestMapping("/api/auth")

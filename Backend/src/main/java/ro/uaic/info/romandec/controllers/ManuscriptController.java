@@ -11,7 +11,7 @@ import ro.uaic.info.romandec.services.ManuscriptService;
 import java.util.UUID;
 
 @RestController
-public class MannuscriptController {
+public class ManuscriptController {
 
     @Autowired
     private ManuscriptService manuscriptService;

@@ -2,7 +2,6 @@ package ro.uaic.info.romandec.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +11,7 @@ import ro.uaic.info.romandec.Response.ManuscriptDetailedResponse;
 import ro.uaic.info.romandec.Response.ManuscriptPreviewResponse;
 import ro.uaic.info.romandec.exceptions.InvalidDataException;
 import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInput;
-import ro.uaic.info.romandec.models.Manuscript;
 import ro.uaic.info.romandec.services.ManuscriptService;
-import ro.uaic.info.romandec.services.UserService;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,20 +22,15 @@ public class ProfileController {
 
     private final ManuscriptService manuscriptService;
 
-    private final UserService userService;
 
     @Autowired
-    public ProfileController(ManuscriptService manuscriptService, UserService userService) {
+    public ProfileController(ManuscriptService manuscriptService) {
         this.manuscriptService = manuscriptService;
-        this.userService = userService;
     }
 
 
-    @GetMapping("/all-manuscripts")
-    public ResponseEntity<?> getAllUsersManuscripts() {
-
-        // this will be replaced with a parameter once the login/create functionality is added
-        UUID userId = userService.getTestUserUUID();
+    @GetMapping("/my-manuscripts/all")
+    public ResponseEntity<?> getAllUsersManuscripts(@RequestParam("userId") UUID userId) {
 
         try {
 
@@ -54,10 +46,8 @@ public class ProfileController {
         }
     }
 
-    @GetMapping("/manuscript")
-    public ResponseEntity<?> getSpecificManuscript(@RequestBody SpecificManuscriptRequest request) {
-
-        UUID userId = userService.getTestUserUUID();
+    @GetMapping("/my-manuscripts")
+    public ResponseEntity<?> getSpecificManuscript(@RequestBody SpecificManuscriptRequest request, @RequestParam UUID userId) {
 
         try {
             ManuscriptDetailedResponse manuscript = manuscriptService.getSpecificManuscript(request, userId);
@@ -68,10 +58,9 @@ public class ProfileController {
         }
     }
 
-    @DeleteMapping("/manuscript")
-    public ResponseEntity<?> deleteSpecificManuscript(@RequestBody SpecificManuscriptRequest request) {
+    @DeleteMapping("/my-manuscript/delete")
+    public ResponseEntity<?> deleteSpecificManuscript(@RequestBody SpecificManuscriptRequest request, @RequestParam UUID userId) {
 
-        UUID userId = userService.getTestUserUUID();
         try {
             manuscriptService.deleteSpecificManuscript(request, userId);
 
@@ -81,9 +70,8 @@ public class ProfileController {
         }
     }
 
-    @GetMapping("/maunscript")
-    public ResponseEntity<?> downloadSpecificManuscript(@RequestBody SpecificManuscriptRequest request){
-        UUID userId = userService.getTestUserUUID();
+    @GetMapping("/my-manuscripts/download")
+    public ResponseEntity<?> downloadSpecificManuscript(@RequestBody SpecificManuscriptRequest request, @RequestParam UUID userId){
 
         try {
             FileSystemResource manuscript =  manuscriptService.downloadSpecificManuscript(request, userId);

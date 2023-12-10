@@ -13,7 +13,6 @@ import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInput;
 import ro.uaic.info.romandec.models.Manuscript;
 import ro.uaic.info.romandec.models.ManuscriptMetadata;
 import ro.uaic.info.romandec.models.User;
-import ro.uaic.info.romandec.models.UserRoles;
 import ro.uaic.info.romandec.repository.ManuscriptMetadataRepository;
 import ro.uaic.info.romandec.repository.ManuscriptRepository;
 import ro.uaic.info.romandec.repository.UserRepository;
@@ -170,15 +169,6 @@ public class ManuscriptService {
             throw new InvalidDataException("Invalid images for initialization");
         }
 
-        User user = User
-                .builder()
-                .userManuscripts(new HashSet<>())
-                .role(UserRoles.DEFAULT)
-                .email("aaaa@email.com")
-                .password("this_is_not_a_password")
-                .build();
-        user = userRepository.save(user);
-
         for (MultipartFile image : images) {
             String originalFilename = image.getOriginalFilename();
             String filenameWithoutExtension = extractFilenameWithoutExtension(originalFilename);
@@ -204,7 +194,6 @@ public class ManuscriptService {
                         .manuscriptMetadata(manuscriptMetadata)
                         .pathToImage(imagePath.toAbsolutePath().toString())
                         .name(filenameWithoutExtension)
-                        .user(user)
                         .build();
 
                 manuscriptRepository.save(manuscript);
