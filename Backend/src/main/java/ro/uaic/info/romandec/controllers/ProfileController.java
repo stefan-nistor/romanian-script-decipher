@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.uaic.info.romandec.Request.SpecificManuscriptRequest;
+import ro.uaic.info.romandec.models.dtos.SpecificManuscriptDto;
 import ro.uaic.info.romandec.Response.ManuscriptDetailedResponse;
 import ro.uaic.info.romandec.Response.ManuscriptPreviewResponse;
 import ro.uaic.info.romandec.exceptions.InvalidDataException;
@@ -47,7 +47,7 @@ public class ProfileController {
     }
 
     @GetMapping("/my-manuscripts")
-    public ResponseEntity<?> getSpecificManuscript(@RequestBody SpecificManuscriptRequest request, @RequestParam UUID userId) {
+    public ResponseEntity<?> getSpecificManuscript(@RequestBody SpecificManuscriptDto request, @RequestParam UUID userId) {
 
         try {
             ManuscriptDetailedResponse manuscript = manuscriptService.getSpecificManuscript(request, userId);
@@ -59,7 +59,7 @@ public class ProfileController {
     }
 
     @DeleteMapping("/my-manuscript/delete")
-    public ResponseEntity<?> deleteSpecificManuscript(@RequestBody SpecificManuscriptRequest request, @RequestParam UUID userId) {
+    public ResponseEntity<?> deleteSpecificManuscript(@RequestBody SpecificManuscriptDto request, @RequestParam UUID userId) {
 
         try {
             manuscriptService.deleteSpecificManuscript(request, userId);
@@ -71,7 +71,7 @@ public class ProfileController {
     }
 
     @GetMapping("/my-manuscripts/download")
-    public ResponseEntity<?> downloadSpecificManuscript(@RequestBody SpecificManuscriptRequest request, @RequestParam UUID userId){
+    public ResponseEntity<?> downloadSpecificManuscript(@RequestBody SpecificManuscriptDto request, @RequestParam UUID userId){
 
         try {
             FileSystemResource manuscript =  manuscriptService.downloadSpecificManuscript(request, userId);

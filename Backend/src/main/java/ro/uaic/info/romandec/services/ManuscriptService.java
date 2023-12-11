@@ -5,14 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ro.uaic.info.romandec.Request.SpecificManuscriptRequest;
+import ro.uaic.info.romandec.models.dtos.SpecificManuscriptDto;
 import ro.uaic.info.romandec.Response.ManuscriptDetailedResponse;
 import ro.uaic.info.romandec.Response.ManuscriptPreviewResponse;
 import ro.uaic.info.romandec.exceptions.InvalidDataException;
 import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInput;
 import ro.uaic.info.romandec.models.Manuscript;
 import ro.uaic.info.romandec.models.ManuscriptMetadata;
-import ro.uaic.info.romandec.models.User;
 import ro.uaic.info.romandec.repository.ManuscriptMetadataRepository;
 import ro.uaic.info.romandec.repository.ManuscriptRepository;
 import ro.uaic.info.romandec.repository.UserRepository;
@@ -68,7 +67,7 @@ public class ManuscriptService {
     }
 
 
-    private Manuscript checkAndGetManuscriptByRequest(SpecificManuscriptRequest request, UUID userId)
+    private Manuscript checkAndGetManuscriptByRequest(SpecificManuscriptDto request, UUID userId)
             throws InvalidDataException, NoAvailableDataForGivenInput {
 
         if (request == null){
@@ -140,7 +139,7 @@ public class ManuscriptService {
         return response;
     }
 
-    public ManuscriptDetailedResponse getSpecificManuscript(SpecificManuscriptRequest manuscriptRequest, UUID userId)
+    public ManuscriptDetailedResponse getSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId)
             throws InvalidDataException, NoAvailableDataForGivenInput {
 
         Manuscript manuscript =  checkAndGetManuscriptByRequest(manuscriptRequest, userId);
@@ -155,7 +154,7 @@ public class ManuscriptService {
                 .build();
     }
 
-    public void deleteSpecificManuscript(SpecificManuscriptRequest manuscriptRequest, UUID userId)
+    public void deleteSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId)
             throws NoAvailableDataForGivenInput, InvalidDataException {
 
         manuscriptRepository.delete(checkAndGetManuscriptByRequest(manuscriptRequest, userId));
@@ -217,7 +216,7 @@ public class ManuscriptService {
         return new File(pathOfRandomNotDecipheredImage);
     }
 
-    public FileSystemResource downloadSpecificManuscript(SpecificManuscriptRequest request, UUID userId)
+    public FileSystemResource downloadSpecificManuscript(SpecificManuscriptDto request, UUID userId)
             throws NoAvailableDataForGivenInput, InvalidDataException {
 
         Manuscript manuscript = checkAndGetManuscriptByRequest(request, userId);
