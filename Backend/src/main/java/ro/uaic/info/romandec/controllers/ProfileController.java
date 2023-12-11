@@ -7,10 +7,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.romandec.models.dtos.SpecificManuscriptDto;
-import ro.uaic.info.romandec.Response.ManuscriptDetailedResponse;
-import ro.uaic.info.romandec.Response.ManuscriptPreviewResponse;
+import ro.uaic.info.romandec.models.dtos.ManuscriptDetailedResponseDto;
+import ro.uaic.info.romandec.models.dtos.ManuscriptPreviewResponseDto;
 import ro.uaic.info.romandec.exceptions.InvalidDataException;
-import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInput;
+import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInputException;
 import ro.uaic.info.romandec.services.ManuscriptService;
 
 import java.util.List;
@@ -34,14 +34,14 @@ public class ProfileController {
 
         try {
 
-            List<ManuscriptPreviewResponse> allUsersManuscripts = manuscriptService.getAllUsersManuscripts(userId);
+            List<ManuscriptPreviewResponseDto> allUsersManuscripts = manuscriptService.getAllUsersManuscripts(userId);
 
             if (allUsersManuscripts.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("This user has no manuscripts added.");
             }
 
             return ResponseEntity.status(HttpStatus.OK).body(allUsersManuscripts);
-        } catch (NoAvailableDataForGivenInput e) {
+        } catch (NoAvailableDataForGivenInputException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
@@ -50,10 +50,10 @@ public class ProfileController {
     public ResponseEntity<?> getSpecificManuscript(@RequestBody SpecificManuscriptDto request, @RequestParam UUID userId) {
 
         try {
-            ManuscriptDetailedResponse manuscript = manuscriptService.getSpecificManuscript(request, userId);
+            ManuscriptDetailedResponseDto manuscript = manuscriptService.getSpecificManuscript(request, userId);
 
             return ResponseEntity.status(HttpStatus.OK).body(manuscript);
-        } catch (NoAvailableDataForGivenInput | InvalidDataException e) {
+        } catch (NoAvailableDataForGivenInputException | InvalidDataException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -65,7 +65,7 @@ public class ProfileController {
             manuscriptService.deleteSpecificManuscript(request, userId);
 
             return ResponseEntity.status(HttpStatus.OK).body("");
-        } catch (NoAvailableDataForGivenInput | InvalidDataException e) {
+        } catch (NoAvailableDataForGivenInputException | InvalidDataException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -80,7 +80,7 @@ public class ProfileController {
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(manuscript);
 
-        } catch (NoAvailableDataForGivenInput | InvalidDataException e) {
+        } catch (NoAvailableDataForGivenInputException | InvalidDataException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

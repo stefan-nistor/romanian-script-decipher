@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.romandec.exceptions.InvalidDataException;
-import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInput;
+import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInputException;
 import ro.uaic.info.romandec.services.ManuscriptService;
 
 import java.io.*;
@@ -45,7 +45,7 @@ public class AnnotatorController {
                     .body(new InputStreamResource(in));
 
         }
-        catch (NoAvailableDataForGivenInput | IOException e)
+        catch (NoAvailableDataForGivenInputException | IOException e)
         {
             response = ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }

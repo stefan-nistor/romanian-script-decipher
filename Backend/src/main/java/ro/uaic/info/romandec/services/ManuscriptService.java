@@ -6,10 +6,10 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ro.uaic.info.romandec.models.dtos.SpecificManuscriptDto;
-import ro.uaic.info.romandec.Response.ManuscriptDetailedResponse;
-import ro.uaic.info.romandec.Response.ManuscriptPreviewResponse;
+import ro.uaic.info.romandec.models.dtos.ManuscriptDetailedResponseDto;
+import ro.uaic.info.romandec.models.dtos.ManuscriptPreviewResponseDto;
 import ro.uaic.info.romandec.exceptions.InvalidDataException;
-import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInput;
+import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInputException;
 import ro.uaic.info.romandec.models.Manuscript;
 import ro.uaic.info.romandec.models.ManuscriptMetadata;
 import ro.uaic.info.romandec.repository.ManuscriptMetadataRepository;
@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ManuscriptService {
@@ -43,107 +44,33 @@ public class ManuscriptService {
         this.manuscriptMetadataRepository = manuscriptMetadataRepository;
         this.userRepository = userRepository;
     }
-
-    private String extractFilenameWithoutExtension(String filename)
-    {
-        if (filename == null || filename.isEmpty())
-        {
-            return filename;
-        }
-
-        int dotIndex = filename.lastIndexOf('.');
-
-        if (dotIndex <= 0)
-        {
-            return filename;
-        }
-
-        return filename.substring(0, dotIndex);
-    }
-
-    private String getDecipheredTranscriptFilename(String filename)
-    {
-        return filename.split("\\.")[0] + ".txt";
-    }
-
-
-    private Manuscript checkAndGetManuscriptByRequest(SpecificManuscriptDto request, UUID userId)
-            throws InvalidDataException, NoAvailableDataForGivenInput {
-
-        if (request == null){
-            throw new InvalidDataException("Manuscript id can't be null.");
-        }
-
-        Optional<Manuscript> manuscript = manuscriptRepository.getManuscriptByIdAndNameAndUserId(
-                request.getManuscriptId(),
-                request.getName(),
-                userId);
-
-        if (manuscript.isEmpty()){
-            throw new NoAvailableDataForGivenInput("No manuscript found for id:" + manuscript);
-        }
-
-        return manuscript.get();
-    }
-
     public void saveAnnotatorDecipheredManuscript(String originalImageFilename, String decipheredText)
-            throws InvalidDataException, IOException
-    {
+            throws InvalidDataException, IOException {
         String filenameWithoutExtension = extractFilenameWithoutExtension(originalImageFilename);
         Path imageDirectory = Paths.get(databaseDirectory, filenameWithoutExtension);
-
-        if (!Files.exists(imageDirectory))
-        {
-            throw new InvalidDataException("This image does not a directory associated");
-        }
-
-        Path filePath = imageDirectory.resolve(Objects.requireNonNull(getDecipheredTranscriptFilename(originalImageFilename)) );
-
-        try
-        {
-            Path imageCompletePath = imageDirectory.resolve(originalImageFilename);
-
-            Manuscript manuscript = manuscriptRepository.getManuscriptByPathToImage(imageCompletePath.toAbsolutePath().toString());
-            manuscript.setPathToDecipheredText(filePath.toAbsolutePath().toString());
-            manuscriptRepository.save(manuscript);
-
-            Files.writeString(filePath, decipheredText,
-                    StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException("Error at creating the file with the deciphered text");
-        }
+        verifyImageDirectory(imageDirectory);
+        Path filePath = resolveFilePath(imageDirectory, originalImageFilename);
+        updateManuscript(imageDirectory, originalImageFilename, filePath);
+        Files.writeString(filePath, decipheredText, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
     }
-
-    public List<ManuscriptPreviewResponse> getAllUsersManuscripts(UUID userId)
-            throws NoAvailableDataForGivenInput {
-
-
+    public List<ManuscriptPreviewResponseDto> getAllUsersManuscripts(UUID userId)
+            throws NoAvailableDataForGivenInputException {
         List<Manuscript> usersManuscripts = manuscriptRepository.getAllByUserId(userId);
-
         if (usersManuscripts == null) {
-            throw new NoAvailableDataForGivenInput("No available manuscripts for this user.");
+            throw new NoAvailableDataForGivenInputException("No available manuscripts for this user.");
         }
-
-        List<ManuscriptPreviewResponse> response = new ArrayList<>();
-
-        for (Manuscript m : usersManuscripts) {
-            response.add(ManuscriptPreviewResponse
-                    .builder()
-                    .manuscriptId(m.getId())
-                    .name(m.getName())
-                    .build());
-        }
-
-        return response;
+        return usersManuscripts.stream()
+                .map(m -> ManuscriptPreviewResponseDto.builder()
+                        .manuscriptId(m.getId())
+                        .name(m.getName())
+                        .build())
+                .collect(Collectors.toList());
     }
-
-    public ManuscriptDetailedResponse getSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId)
-            throws InvalidDataException, NoAvailableDataForGivenInput {
+    public ManuscriptDetailedResponseDto getSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId)
+            throws InvalidDataException, NoAvailableDataForGivenInputException {
 
         Manuscript manuscript =  checkAndGetManuscriptByRequest(manuscriptRequest, userId);
-        return ManuscriptDetailedResponse
+        return ManuscriptDetailedResponseDto
                 .builder()
                 .manuscriptId(manuscript.getId())
                 .name(manuscript.getName())
@@ -153,14 +80,11 @@ public class ManuscriptService {
                 .description(manuscript.getManuscriptMetadata().getDescription())
                 .build();
     }
-
     public void deleteSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId)
-            throws NoAvailableDataForGivenInput, InvalidDataException {
+            throws NoAvailableDataForGivenInputException, InvalidDataException {
 
         manuscriptRepository.delete(checkAndGetManuscriptByRequest(manuscriptRequest, userId));
     }
-
-
     public boolean initializeTestData(List<MultipartFile> images)
             throws InvalidDataException
     {
@@ -204,20 +128,18 @@ public class ManuscriptService {
         }
         return true;
     }
-
     public File getRandomNotDecipheredImage()
-            throws NoAvailableDataForGivenInput
+            throws NoAvailableDataForGivenInputException
     {
         String pathOfRandomNotDecipheredImage = manuscriptRepository.getRandomNotDecipheredManuscript();
         if (pathOfRandomNotDecipheredImage == null)
         {
-            throw new NoAvailableDataForGivenInput("No image available for annotators");
+            throw new NoAvailableDataForGivenInputException("No image available for annotators");
         }
         return new File(pathOfRandomNotDecipheredImage);
     }
-
     public FileSystemResource downloadSpecificManuscript(SpecificManuscriptDto request, UUID userId)
-            throws NoAvailableDataForGivenInput, InvalidDataException {
+            throws NoAvailableDataForGivenInputException, InvalidDataException {
 
         Manuscript manuscript = checkAndGetManuscriptByRequest(request, userId);
 
@@ -232,5 +154,45 @@ public class ManuscriptService {
         }
 
         return new FileSystemResource(file);
+    }
+    private void verifyImageDirectory(Path imageDirectory)
+            throws InvalidDataException {
+        if (!Files.exists(imageDirectory)) {
+            throw new InvalidDataException("This image does not a directory associated");
+        }
+    }
+    private Path resolveFilePath(Path imageDirectory, String originalImageFilename) {
+        return imageDirectory.resolve(Objects.requireNonNull(getDecipheredTranscriptFilename(originalImageFilename)));
+    }
+    private void updateManuscript(Path imageDirectory, String originalImageFilename, Path filePath) {
+        Path imageCompletePath = imageDirectory.resolve(originalImageFilename);
+        Optional<Manuscript> manuscript = manuscriptRepository.getManuscriptByPathToImage(imageCompletePath.toAbsolutePath().toString());
+        if (manuscript.isPresent()){
+            manuscript.get().setPathToDecipheredText(filePath.toAbsolutePath().toString());
+            manuscriptRepository.save(manuscript.get());
+        }
+    }
+    private String extractFilenameWithoutExtension(String filename)
+    {
+        Path path = Paths.get(filename);
+        return path.getName(path.getNameCount() - 1).toString();
+    }
+    private String getDecipheredTranscriptFilename(String filename)
+    {
+        String filenameWithoutExtension = extractFilenameWithoutExtension(filename);
+        return filenameWithoutExtension + ".txt";
+    }
+    private Manuscript checkAndGetManuscriptByRequest(SpecificManuscriptDto request, UUID userId)
+            throws InvalidDataException, NoAvailableDataForGivenInputException {
+
+        if (request == null){
+            throw new InvalidDataException("Manuscript id can't be null.");
+        }
+
+        return manuscriptRepository.getManuscriptByIdAndNameAndUserId(
+                request.getManuscriptId(),
+                request.getName(),
+                userId).orElseThrow(() -> new NoAvailableDataForGivenInputException("No manuscript found for id:" +
+                request.getManuscriptId()));
     }
 }

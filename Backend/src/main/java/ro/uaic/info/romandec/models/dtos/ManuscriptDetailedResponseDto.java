@@ -1,4 +1,4 @@
-package ro.uaic.info.romandec.Response;
+package ro.uaic.info.romandec.models.dtos;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ManuscriptDetailedResponse {
+public class ManuscriptDetailedResponseDto {
 
     private UUID manuscriptId;
 
