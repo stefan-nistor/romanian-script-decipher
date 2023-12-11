@@ -26,29 +26,23 @@ public class AnnotatorController {
 
     @GetMapping
     public ResponseEntity<?> getRandomNotDecipheredImage()
-    {
+            throws NoAvailableDataForGivenInputException, FileNotFoundException {
         ResponseEntity<?> response;
-        try
-        {
-            File file = manuscriptService.getRandomNotDecipheredImage();
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG);
-            headers.setContentDispositionFormData("inline", file.getName());
-            headers.setAccessControlExposeHeaders(List.of("Content-Disposition"));
+        File file = manuscriptService.getRandomNotDecipheredImage();
 
-            InputStream in = new FileInputStream(file);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentDispositionFormData("inline", file.getName());
+        headers.setAccessControlExposeHeaders(List.of("Content-Disposition"));
 
-            response = ResponseEntity
-                    .status(HttpStatus.OK)
-                    .headers(headers)
-                    .body(new InputStreamResource(in));
+        InputStream in = new FileInputStream(file);
 
-        }
-        catch (NoAvailableDataForGivenInputException | IOException e)
-        {
-            response = ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+        response = ResponseEntity
+                .status(HttpStatus.OK)
+                .headers(headers)
+                .body(new InputStreamResource(in));
+
 
         return response;
     }
@@ -57,28 +51,14 @@ public class AnnotatorController {
     public ResponseEntity<?> saveAnnotatorDecipheredManuscript(
             @RequestParam("originalImageFilename") String originalImageFilename,
             @RequestParam("decipheredText") String decipheredText)
-    {
+            throws InvalidDataException, IOException {
         ResponseEntity<?> response;
 
-        try
-        {
-            if (originalImageFilename == null || originalImageFilename.isEmpty() ||
-                decipheredText == null || decipheredText.isEmpty())
-            {
-                throw new InvalidDataException("Incorrect data for saving your deciphered text!");
-            }
+        manuscriptService.saveAnnotatorDecipheredManuscript(originalImageFilename, decipheredText);
 
-            manuscriptService.saveAnnotatorDecipheredManuscript(originalImageFilename, decipheredText);
-
-            response = ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body("");
-        }
-        catch (InvalidDataException | IOException e)
-        {
-            response = ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
-
+        response = ResponseEntity
+                .status(HttpStatus.OK)
+                .body("");
         return response;
     }
 

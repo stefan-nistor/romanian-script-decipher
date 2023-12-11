@@ -28,60 +28,44 @@ public class ProfileController {
         this.manuscriptService = manuscriptService;
     }
 
-
     @GetMapping("/my-manuscripts/all")
-    public ResponseEntity<?> getAllUsersManuscripts(@RequestParam("userId") UUID userId) {
+    public ResponseEntity<?> getAllUsersManuscripts(@RequestParam("userId") UUID userId)
+            throws NoAvailableDataForGivenInputException {
 
-        try {
+        List<ManuscriptPreviewResponseDto> allUsersManuscripts = manuscriptService.getAllUsersManuscripts(userId);
 
-            List<ManuscriptPreviewResponseDto> allUsersManuscripts = manuscriptService.getAllUsersManuscripts(userId);
-
-            if (allUsersManuscripts.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("This user has no manuscripts added.");
-            }
-
-            return ResponseEntity.status(HttpStatus.OK).body(allUsersManuscripts);
-        } catch (NoAvailableDataForGivenInputException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        if (allUsersManuscripts.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("This user has no manuscripts added.");
         }
+
+        return ResponseEntity.status(HttpStatus.OK).body(allUsersManuscripts);
     }
 
     @GetMapping("/my-manuscripts")
-    public ResponseEntity<?> getSpecificManuscript(@RequestBody SpecificManuscriptDto request, @RequestParam UUID userId) {
+    public ResponseEntity<?> getSpecificManuscript(@RequestBody SpecificManuscriptDto request, @RequestParam UUID userId)
+            throws NoAvailableDataForGivenInputException, InvalidDataException {
 
-        try {
-            ManuscriptDetailedResponseDto manuscript = manuscriptService.getSpecificManuscript(request, userId);
+        ManuscriptDetailedResponseDto manuscript = manuscriptService.getSpecificManuscript(request, userId);
 
-            return ResponseEntity.status(HttpStatus.OK).body(manuscript);
-        } catch (NoAvailableDataForGivenInputException | InvalidDataException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(manuscript);
     }
 
     @DeleteMapping("/my-manuscript/delete")
-    public ResponseEntity<?> deleteSpecificManuscript(@RequestBody SpecificManuscriptDto request, @RequestParam UUID userId) {
+    public ResponseEntity<?> deleteSpecificManuscript(@RequestBody SpecificManuscriptDto request, @RequestParam UUID userId)
+            throws NoAvailableDataForGivenInputException, InvalidDataException {
 
-        try {
-            manuscriptService.deleteSpecificManuscript(request, userId);
+        manuscriptService.deleteSpecificManuscript(request, userId);
 
-            return ResponseEntity.status(HttpStatus.OK).body("");
-        } catch (NoAvailableDataForGivenInputException | InvalidDataException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
     @GetMapping("/my-manuscripts/download")
-    public ResponseEntity<?> downloadSpecificManuscript(@RequestBody SpecificManuscriptDto request, @RequestParam UUID userId){
+    public ResponseEntity<?> downloadSpecificManuscript(@RequestBody SpecificManuscriptDto request, @RequestParam UUID userId)
+            throws NoAvailableDataForGivenInputException, InvalidDataException {
+        FileSystemResource manuscript =  manuscriptService.downloadSpecificManuscript(request, userId);
 
-        try {
-            FileSystemResource manuscript =  manuscriptService.downloadSpecificManuscript(request, userId);
-
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(manuscript);
-
-        } catch (NoAvailableDataForGivenInputException | InvalidDataException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(manuscript);
     }
 }

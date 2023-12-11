@@ -46,6 +46,13 @@ public class ManuscriptService {
     }
     public void saveAnnotatorDecipheredManuscript(String originalImageFilename, String decipheredText)
             throws InvalidDataException, IOException {
+
+        if (originalImageFilename == null || originalImageFilename.isEmpty() ||
+                decipheredText == null || decipheredText.isEmpty())
+        {
+            throw new InvalidDataException("Incorrect data for saving your deciphered text!");
+        }
+
         String filenameWithoutExtension = extractFilenameWithoutExtension(originalImageFilename);
         Path imageDirectory = Paths.get(databaseDirectory, filenameWithoutExtension);
         verifyImageDirectory(imageDirectory);
