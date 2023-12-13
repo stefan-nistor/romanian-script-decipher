@@ -45,7 +45,7 @@ public class ManuscriptService {
         this.userRepository = userRepository;
     }
     public void saveAnnotatorDecipheredManuscript(String originalImageFilename, String decipheredText)
-            throws InvalidDataException, IOException {
+            throws IOException {
 
         if (originalImageFilename == null || originalImageFilename.isEmpty() ||
                 decipheredText == null || decipheredText.isEmpty())
@@ -60,8 +60,7 @@ public class ManuscriptService {
         updateManuscript(imageDirectory, originalImageFilename, filePath);
         Files.writeString(filePath, decipheredText, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
     }
-    public List<ManuscriptPreviewResponseDto> getAllUsersManuscripts(UUID userId)
-            throws NoAvailableDataForGivenInputException {
+    public List<ManuscriptPreviewResponseDto> getAllUsersManuscripts(UUID userId) {
         List<Manuscript> usersManuscripts = manuscriptRepository.getAllByUserId(userId);
         if (usersManuscripts == null) {
             throw new NoAvailableDataForGivenInputException("No available manuscripts for this user.");
@@ -73,8 +72,7 @@ public class ManuscriptService {
                         .build())
                 .collect(Collectors.toList());
     }
-    public ManuscriptDetailedResponseDto getSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId)
-            throws InvalidDataException, NoAvailableDataForGivenInputException {
+    public ManuscriptDetailedResponseDto getSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId) {
 
         Manuscript manuscript =  checkAndGetManuscriptByRequest(manuscriptRequest, userId);
         return ManuscriptDetailedResponseDto
@@ -87,14 +85,10 @@ public class ManuscriptService {
                 .description(manuscript.getManuscriptMetadata().getDescription())
                 .build();
     }
-    public void deleteSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId)
-            throws NoAvailableDataForGivenInputException, InvalidDataException {
-
+    public void deleteSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId) {
         manuscriptRepository.delete(checkAndGetManuscriptByRequest(manuscriptRequest, userId));
     }
-    public boolean initializeTestData(List<MultipartFile> images)
-            throws InvalidDataException
-    {
+    public boolean initializeTestData(List<MultipartFile> images) {
         if (images == null || images.isEmpty()) {
             throw new InvalidDataException("Invalid images for initialization");
         }
@@ -135,9 +129,7 @@ public class ManuscriptService {
         }
         return true;
     }
-    public File getRandomNotDecipheredImage()
-            throws NoAvailableDataForGivenInputException
-    {
+    public File getRandomNotDecipheredImage() {
         String pathOfRandomNotDecipheredImage = manuscriptRepository.getRandomNotDecipheredManuscript();
         if (pathOfRandomNotDecipheredImage == null)
         {
@@ -145,8 +137,7 @@ public class ManuscriptService {
         }
         return new File(pathOfRandomNotDecipheredImage);
     }
-    public FileSystemResource downloadSpecificManuscript(SpecificManuscriptDto request, UUID userId)
-            throws NoAvailableDataForGivenInputException, InvalidDataException {
+    public FileSystemResource downloadSpecificManuscript(SpecificManuscriptDto request, UUID userId) {
 
         Manuscript manuscript = checkAndGetManuscriptByRequest(request, userId);
 
@@ -162,8 +153,7 @@ public class ManuscriptService {
 
         return new FileSystemResource(file);
     }
-    private void verifyImageDirectory(Path imageDirectory)
-            throws InvalidDataException {
+    private void verifyImageDirectory(Path imageDirectory) {
         if (!Files.exists(imageDirectory)) {
             throw new InvalidDataException("This image does not a directory associated");
         }
@@ -189,8 +179,7 @@ public class ManuscriptService {
         String filenameWithoutExtension = extractFilenameWithoutExtension(filename);
         return filenameWithoutExtension + ".txt";
     }
-    private Manuscript checkAndGetManuscriptByRequest(SpecificManuscriptDto request, UUID userId)
-            throws InvalidDataException, NoAvailableDataForGivenInputException {
+    private Manuscript checkAndGetManuscriptByRequest(SpecificManuscriptDto request, UUID userId) {
 
         if (request == null){
             throw new InvalidDataException("Manuscript id can't be null.");
