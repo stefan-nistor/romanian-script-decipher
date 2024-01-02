@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface ManuscriptRepository extends JpaRepository<Manuscript,Integer> {
 
     @Query(value = "SELECT path_to_image FROM manuscripts WHERE " +
