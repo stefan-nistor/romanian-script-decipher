@@ -1,4 +1,4 @@
-package ro.uaic.info.romandec.services.impl;
+package ro.uaic.info.romandec.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

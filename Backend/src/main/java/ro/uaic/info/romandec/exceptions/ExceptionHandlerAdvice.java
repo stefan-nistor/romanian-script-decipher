@@ -21,4 +21,22 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(result, HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @ExceptionHandler({InvalidDataException.class})
+    public ResponseEntity<Object> invalidDataException(RuntimeException e){
+        Map<String, Object> result = new HashMap<>();
+        result.put("Timestamp", LocalDateTime.now());
+        result.put("Message", e.getMessage());
+        return new ResponseEntity<>(result, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler({NoAvailableDataForGivenInputException.class})
+    public ResponseEntity<Object> noAvailableDataForInput(RuntimeException e){
+        Map<String, Object> result = new HashMap<>();
+        result.put("Timestamp", LocalDateTime.now());
+        result.put("Message", e.getMessage());
+        return new ResponseEntity<>(result, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+
+
 }

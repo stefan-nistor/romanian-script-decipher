@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.uaic.info.romandec.exceptions.InvalidDataException;
-import ro.uaic.info.romandec.exceptions.NoAvailableImageForAnnotator;
 import ro.uaic.info.romandec.services.ManuscriptService;
 
 import java.io.*;
@@ -25,30 +23,23 @@ public class AnnotatorController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getRandomNotDecipheredImage()
-    {
+    public ResponseEntity<?> getRandomNotDecipheredImage() throws FileNotFoundException {
         ResponseEntity<?> response;
-        try
-        {
-            File file = manuscriptService.getRandomNotDecipheredImage();
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG);
-            headers.setContentDispositionFormData("inline", file.getName());
-            headers.setAccessControlExposeHeaders(List.of("Content-Disposition"));
+        File file = manuscriptService.getRandomNotDecipheredImage();
 
-            InputStream in = new FileInputStream(file);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentDispositionFormData("inline", file.getName());
+        headers.setAccessControlExposeHeaders(List.of("Content-Disposition"));
 
-            response = ResponseEntity
-                    .status(HttpStatus.OK)
-                    .headers(headers)
-                    .body(new InputStreamResource(in));
+        InputStream in = new FileInputStream(file);
 
-        }
-        catch (NoAvailableImageForAnnotator | IOException e)
-        {
-            response = ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+        response = ResponseEntity
+                .status(HttpStatus.OK)
+                .headers(headers)
+                .body(new InputStreamResource(in));
+
 
         return response;
     }
@@ -56,29 +47,14 @@ public class AnnotatorController {
     @PostMapping
     public ResponseEntity<?> saveAnnotatorDecipheredManuscript(
             @RequestParam("originalImageFilename") String originalImageFilename,
-            @RequestParam("decipheredText") String decipheredText)
-    {
+            @RequestParam("decipheredText") String decipheredText) throws IOException {
         ResponseEntity<?> response;
 
-        try
-        {
-            if (originalImageFilename == null || originalImageFilename.isEmpty() ||
-                decipheredText == null || decipheredText.isEmpty())
-            {
-                throw new InvalidDataException("Incorrect data for saving your deciphered text!");
-            }
+        manuscriptService.saveAnnotatorDecipheredManuscript(originalImageFilename, decipheredText);
 
-            manuscriptService.saveAnnotatorDecipheredManuscript(originalImageFilename, decipheredText);
-
-            response = ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body("");
-        }
-        catch (InvalidDataException | IOException e)
-        {
-            response = ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
-
+        response = ResponseEntity
+                .status(HttpStatus.OK)
+                .body("");
         return response;
     }
 
