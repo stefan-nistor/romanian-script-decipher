@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.uaic.info.romandec.exceptions.InvalidDataException;
-import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInputException;
 import ro.uaic.info.romandec.services.ManuscriptService;
 
 import java.io.*;
@@ -25,8 +23,7 @@ public class AnnotatorController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getRandomNotDecipheredImage()
-            throws NoAvailableDataForGivenInputException, FileNotFoundException {
+    public ResponseEntity<?> getRandomNotDecipheredImage() throws FileNotFoundException {
         ResponseEntity<?> response;
 
         File file = manuscriptService.getRandomNotDecipheredImage();
@@ -50,8 +47,7 @@ public class AnnotatorController {
     @PostMapping
     public ResponseEntity<?> saveAnnotatorDecipheredManuscript(
             @RequestParam("originalImageFilename") String originalImageFilename,
-            @RequestParam("decipheredText") String decipheredText)
-            throws InvalidDataException, IOException {
+            @RequestParam("decipheredText") String decipheredText) throws IOException {
         ResponseEntity<?> response;
 
         manuscriptService.saveAnnotatorDecipheredManuscript(originalImageFilename, decipheredText);
