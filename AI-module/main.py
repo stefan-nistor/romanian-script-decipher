@@ -9,8 +9,6 @@ from urllib.parse import urlencode
 from dotenv import load_dotenv
 load_dotenv()
 
-SESSION_ID = None
-
 app = FastAPI()
 
 
@@ -18,7 +16,7 @@ class TranskribusAPI:
     session_id: str
     session_cookie: dict
     user: str
-    password: str = os.environ.get("TRANSKRIBUS_PASSWORD")
+    password: str
 
     def __init__(self):
         self.user = os.environ.get("TRANSKRIBUS_USER")
