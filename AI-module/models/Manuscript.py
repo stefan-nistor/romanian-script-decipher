@@ -56,12 +56,16 @@ class ManuscriptUploading:
             #
             # with open(self.path, 'rb') as file:
             #     content = file.read().decode(encoding)
-            with open(self.path, 'rb') as file:
-                content = file.read()
-                print(content)
-            files = {'img': content}
-            response = requests.put('https://transkribus.eu/TrpServer/rest/uploads/{}'.format(upload_id), files=files)
-            return response
+
+            # with open(self.path, 'rb') as file:
+            #     content = file.read()
+            #     print(content)
+
+            files = {'img': (open(self.path, encoding='ISO-8859-1'))}
+            print("inainte")
+            response = requests.put(url='https://transkribus.eu/TrpServer/rest/uploads/{}'.format(upload_id), files=files, cookies={"JSESSIONID": session_id} )
+            print("dupa")
+            return response.text
         else:
             print(response.status_code)
             return response.text
