@@ -1,4 +1,5 @@
 import base64
+import time
 
 from pydantic import BaseModel
 import requests
@@ -15,6 +16,7 @@ class ManuscriptUploading:
     path: str
     collection_id: int
     upload_id: int
+    job_id: int
 
     def __init__(self, name, path, collection_id):
         self.name = name
@@ -53,10 +55,18 @@ class ManuscriptUploading:
             response = requests.put(url='https://transkribus.eu/TrpServer/rest/uploads/{}'.format(upload_id),
                                     files=files, cookies={"JSESSIONID": session_id})
             print("dupa")
+            self.job_id = int(response.text.split("jobId>")[1].replace("</", ""))
             return response.text
         else:
             print(response.status_code)
             return response.text
 
-    def get_manuscript(self):
-        pass
+    def get_manuscript_status(self, session_id):
+        url = f"https://transkribus.eu/TrpServer/rest/jobs/{self.job_id}"
+        print(f"Job id for the manuscript is {self.job_id}")
+        response = requests.get(url, cookies={"JSESSIONID": session_id})
+        # while response.json["state"] != 'FINISHED':
+        #     export_status = requests.get(f'https://transkribus.eu/TrpServer/rest/jobs/{self.job_id}')
+        #     export_status = export_status.json()
+        #     time.sleep(10)
+        return response.text
