@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class DecipherManuscriptDto {
 
-    private String titleOfManuscript;
+    private String title;
 
     private String author;
 

@@ -1,45 +1,77 @@
 <div class="container mt-5">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Upload Script</h5>
-        <form [formGroup] = "uploadForm" class="col-md-6 offset-md-3">
-
-          <div class="mb-3">
-            <label for="uploadedFile" class="form-label">Choose the script that you want to decypher</label>
-            <input class="form-control" type="file" id="uploadedFile" formControlName="uploadedFile">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Upload Script</h5>
+      <form [formGroup]="uploadForm" class="col-md-6 offset-md-3">
+        <div class="mb-3">
+          <label for="uploadedFile" class="form-label"
+            >Choose the script that you want to decypher</label
+          >
+          <input
+            class="form-control"
+            type="file"
+            id="uploadedFile"
+            formControlName="uploadedFile"
+          />
         </div>
 
-          <div class="mb-3">
-            <label for="titleOfManuscript" class="form-label">Title:</label>
-            <input class="form-control" type="text" id="titleOfManuscript" formControlName="titleOfManuscript">
-          </div> 
+        <div class="mb-3">
+          <label for="titleOfManuscript" class="form-label">Title:</label>
+          <input
+            class="form-control"
+            type="text"
+            id="titleOfManuscript"
+            formControlName="titleOfManuscript"
+          />
+        </div>
 
-          <div class="mb-3">
-            <label for="author" class="form-label">Author:</label>
-            <input class="form-control" type="text" id="author" formControlName="author">
-          </div> 
+        <div class="mb-3">
+          <label for="author" class="form-label">Author:</label>
+          <input
+            class="form-control"
+            type="text"
+            id="author"
+            formControlName="author"
+          />
+        </div>
 
-          <div class="mb-3">
-            <label for="yearOfPublication" class="form-label">Year:</label>
-            <input class="form-control" type="number" id="yearOfPublication" formControlName="yearOfPublication">
+        <div class="mb-3">
+          <label for="yearOfPublication" class="form-label">Year:</label>
+          <input
+            class="form-control"
+            type="number"
+            id="yearOfPublication"
+            formControlName="yearOfPublication"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description:</label>
+          <textarea
+            class="form-control"
+            type="textarea"
+            id="description"
+            formControlName="description"
+          ></textarea>
+        </div>
+
+        <div class="row">
+          <div class="col col-md-2">
+            <button
+              type="submit"
+              class="btn btn-outline-primary"
+              (click)="Decypher()"
+            >
+              Decypher
+            </button>
           </div>
-
-          <div class="mb-3">
-            <label for="description" class="form-label">Description:</label>
-            <textarea class="form-control" type="textarea" id="description" formControlName="description"></textarea>
-        </div> 
-          
-            <div class="row">
-                <div class="col col-md-2">
-                    <button type="submit" class="btn btn-outline-primary" (click)="Decypher()">Decypher</button>
-                </div>
-                <div class="col col-md-2">
-                    <button type="reset" class="btn btn-outline-secondary">Clear</button>
-                </div>
-                
-            </div>
-        </form>
-
-      </div>
+          <div class="col col-md-2">
+            <button type="reset" class="btn btn-outline-secondary">
+              Clear
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
+</div>
