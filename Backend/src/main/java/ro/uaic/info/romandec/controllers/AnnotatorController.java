@@ -44,18 +44,18 @@ public class AnnotatorController {
         return response;
     }
 
-    @PostMapping
-    public ResponseEntity<?> saveAnnotatorDecipheredManuscript(
-            @RequestParam("originalImageFilename") String originalImageFilename,
-            @RequestParam("decipheredText") String decipheredText) throws IOException {
-        ResponseEntity<?> response;
-
-        manuscriptService.saveAnnotatorDecipheredManuscript(originalImageFilename, decipheredText);
-
-        response = ResponseEntity
-                .status(HttpStatus.OK)
-                .body("");
-        return response;
-    }
+//    @PostMapping
+//    public ResponseEntity<?> saveAnnotatorDecipheredManuscript(
+//            @RequestParam("originalImageFilename") String originalImageFilename,
+//            @RequestParam("decipheredText") String decipheredText) throws IOException {
+//        ResponseEntity<?> response;
+//
+//        manuscriptService.saveAnnotatorDecipheredManuscript(originalImageFilename, decipheredText);
+//
+//        response = ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body("");
+//        return response;
+//    }
 
 }

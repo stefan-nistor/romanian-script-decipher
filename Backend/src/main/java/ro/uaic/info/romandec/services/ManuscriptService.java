@@ -1,27 +1,26 @@
 package ro.uaic.info.romandec.services;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ro.uaic.info.romandec.models.dtos.SpecificManuscriptDto;
-import ro.uaic.info.romandec.models.dtos.ManuscriptDetailedResponseDto;
-import ro.uaic.info.romandec.models.dtos.ManuscriptPreviewResponseDto;
+import ro.uaic.info.romandec.models.ManuscriptMetadata;
+import ro.uaic.info.romandec.models.dtos.*;
 import ro.uaic.info.romandec.exceptions.InvalidDataException;
 import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInputException;
 import ro.uaic.info.romandec.models.Manuscript;
-import ro.uaic.info.romandec.models.ManuscriptMetadata;
 import ro.uaic.info.romandec.repository.ManuscriptMetadataRepository;
 import ro.uaic.info.romandec.repository.ManuscriptRepository;
 import ro.uaic.info.romandec.repository.UserRepository;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,35 +29,23 @@ public class ManuscriptService {
 
     private final ManuscriptRepository manuscriptRepository;
     private final UserRepository userRepository;
-
+    private final RestTemplate restTemplate;
     private final ManuscriptMetadataRepository manuscriptMetadataRepository;
-
-    private final String databaseDirectory = "../Database/";
+    private File databaseDirectory;
 
     @Autowired
     public ManuscriptService(ManuscriptRepository manuscriptRepository,
                              ManuscriptMetadataRepository manuscriptMetadataRepository,
-                             UserRepository userRepository)
+                             UserRepository userRepository,
+                             RestTemplate restTemplate)
     {
         this.manuscriptRepository = manuscriptRepository;
         this.manuscriptMetadataRepository = manuscriptMetadataRepository;
         this.userRepository = userRepository;
-    }
-    public void saveAnnotatorDecipheredManuscript(String originalImageFilename, String decipheredText)
-            throws IOException {
+        this.restTemplate = restTemplate;
 
-        if (originalImageFilename == null || originalImageFilename.isEmpty() ||
-                decipheredText == null || decipheredText.isEmpty())
-        {
-            throw new InvalidDataException("Incorrect data for saving your deciphered text!");
-        }
-
-        String filenameWithoutExtension = extractFilenameWithoutExtension(originalImageFilename);
-        Path imageDirectory = Paths.get(databaseDirectory, filenameWithoutExtension);
-        verifyImageDirectory(imageDirectory);
-        Path filePath = resolveFilePath(imageDirectory, originalImageFilename);
-        updateManuscript(imageDirectory, originalImageFilename, filePath);
-        Files.writeString(filePath, decipheredText, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        File currentDirectory = new File(System.getProperty("user.dir")).getParentFile();
+        databaseDirectory = new File(currentDirectory, "Database");
     }
     public List<ManuscriptPreviewResponseDto> getAllUsersManuscripts(UUID userId) {
         List<Manuscript> usersManuscripts = manuscriptRepository.getAllByUserId(userId);
@@ -68,7 +55,9 @@ public class ManuscriptService {
         return usersManuscripts.stream()
                 .map(m -> ManuscriptPreviewResponseDto.builder()
                         .manuscriptId(m.getId())
-                        .name(m.getName())
+                        .titleOfManuscript(m.getManuscriptMetadata().getTitle())
+                        .yearOfPublication(m.getManuscriptMetadata().getYearOfPublication())
+                        .author(m.getManuscriptMetadata().getAuthor())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -78,56 +67,34 @@ public class ManuscriptService {
         return ManuscriptDetailedResponseDto
                 .builder()
                 .manuscriptId(manuscript.getId())
-                .name(manuscript.getName())
+                .name(manuscript.getFilename())
                 .title(manuscript.getManuscriptMetadata().getTitle())
                 .author(manuscript.getManuscriptMetadata().getAuthor())
-                .deciphered(manuscript.getPathToDecipheredText() != null)
+                .yearOfPublication(manuscript.getManuscriptMetadata().getYearOfPublication())
                 .description(manuscript.getManuscriptMetadata().getDescription())
                 .build();
     }
-    public void deleteSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId) {
-        manuscriptRepository.delete(checkAndGetManuscriptByRequest(manuscriptRequest, userId));
-    }
-    public boolean initializeTestData(List<MultipartFile> images) {
-        if (images == null || images.isEmpty()) {
-            throw new InvalidDataException("Invalid images for initialization");
+    public void deleteManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId) {
+        Manuscript manuscript = checkAndGetManuscriptByRequest(manuscriptRequest, userId);
+
+        Path manuscriptDirectory = Paths.get(manuscript.getPathToOriginalText()).getParent();
+
+        try {
+            Files.walk(manuscriptDirectory)
+                    .sorted(Comparator.reverseOrder())
+                    .forEach(path -> {
+                        try {
+                            Files.delete(path);
+                        } catch (IOException e) {
+                            System.err.println("Error at emptying the directory");
+                        }
+                    });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        manuscriptRepository.delete(manuscript);
+        manuscriptMetadataRepository.delete(manuscript.getManuscriptMetadata());
 
-        for (MultipartFile image : images) {
-            String originalFilename = image.getOriginalFilename();
-            String filenameWithoutExtension = extractFilenameWithoutExtension(originalFilename);
-
-            if (filenameWithoutExtension == null || filenameWithoutExtension.isEmpty()) {
-                continue;
-            }
-
-            Path directoryPath = Paths.get(databaseDirectory, filenameWithoutExtension);
-            try {
-                if (!Files.exists(directoryPath)) {
-                    Files.createDirectories(directoryPath);
-                }
-
-                Path imagePath = directoryPath.resolve(originalFilename);
-                Files.copy(image.getInputStream(), imagePath);
-
-                ManuscriptMetadata manuscriptMetadata = new ManuscriptMetadata();
-                manuscriptMetadata = manuscriptMetadataRepository.save(manuscriptMetadata);
-
-                Manuscript manuscript = Manuscript
-                        .builder()
-                        .manuscriptMetadata(manuscriptMetadata)
-                        .pathToImage(imagePath.toAbsolutePath().toString())
-                        .name(filenameWithoutExtension)
-                        .build();
-
-                manuscriptRepository.save(manuscript);
-
-            } catch (IOException e) {
-                System.out.println("Failed to save the image for: " + originalFilename);
-                return false;
-            }
-        }
-        return true;
     }
     public File getRandomNotDecipheredImage() {
         String pathOfRandomNotDecipheredImage = manuscriptRepository.getRandomNotDecipheredManuscript();
@@ -137,47 +104,70 @@ public class ManuscriptService {
         }
         return new File(pathOfRandomNotDecipheredImage);
     }
-    public FileSystemResource downloadSpecificManuscript(SpecificManuscriptDto request, UUID userId) {
+    public FileSystemResource downloadOriginalManuscript(SpecificManuscriptDto request, UUID userId) {
 
         Manuscript manuscript = checkAndGetManuscriptByRequest(request, userId);
 
-        if (manuscript.getPathToDecipheredText() == null){
+        if (manuscript.getPathToOriginalText() == null){
             throw new InvalidDataException("This manuscript is not deciphered");
         }
 
-        File file = new File(manuscript.getPathToDecipheredText());
+        File file = new File(manuscript.getPathToOriginalText());
 
         if (!file.exists()) {
             throw new InvalidDataException("File does not exist.");
         }
-
         return new FileSystemResource(file);
+
     }
-    private void verifyImageDirectory(Path imageDirectory) {
-        if (!Files.exists(imageDirectory)) {
-            throw new InvalidDataException("This image does not a directory associated");
+    public ManuscriptPreviewResponseDto decipherTranscript(MultipartFile manuscriptFile, String decipherManuscriptJSON, UUID userId) {
+        try {
+
+            //deserialize the JSON
+            DecipherManuscriptDto decipherManuscriptDto = new ObjectMapper().readValue(decipherManuscriptJSON, DecipherManuscriptDto.class);
+
+//        URI otherUrl = URI.create("URL-FOR-DECIPHER");
+//        ResponseEntity<byte[]> response = restTemplate.getForEntity(otherUrl, byte[].class);
+
+            //create the directory for the newly added manuscript
+            Path uploadedManuscriptDirectory = createDirectoryForUploadedManuscript(manuscriptFile.getOriginalFilename(), userId);
+
+            //add the original file to the new directory
+            if (Files.exists(uploadedManuscriptDirectory)){
+                Path originalManuscriptPath = Paths.get(uploadedManuscriptDirectory.toString(), manuscriptFile.getOriginalFilename());
+                manuscriptFile.transferTo(originalManuscriptPath);
+            }
+
+            //save into the db the manuscript with the associated metadata
+            ManuscriptMetadata manuscriptMetadata = manuscriptMetadataRepository.save(ManuscriptMetadata
+                    .builder()
+                    .title(decipherManuscriptDto.getTitleOfManuscript())
+                    .description(decipherManuscriptDto.getDescription())
+                    .author(decipherManuscriptDto.getAuthor())
+                    .build());
+
+            Manuscript manuscript =  manuscriptRepository.save(Manuscript
+                    .builder()
+                    .filename(manuscriptFile.getOriginalFilename())
+                    .user(userRepository.getReferenceById(userId))
+                    .pathToOriginalText(String.valueOf(Paths.get(uploadedManuscriptDirectory.toString(),
+                                        manuscriptFile.getOriginalFilename())))
+                    .pathToDecipheredText("not yet")
+                    .manuscriptMetadata(manuscriptMetadata)
+                    .build());
+
+            //return the necessary info
+            return ManuscriptPreviewResponseDto
+                    .builder()
+                    .manuscriptId(manuscript.getId())
+                    .titleOfManuscript(manuscript.getManuscriptMetadata().getTitle())
+                    .yearOfPublication(manuscript.getManuscriptMetadata().getYearOfPublication())
+                    .author(manuscript.getManuscriptMetadata().getAuthor())
+                    .build();
         }
-    }
-    private Path resolveFilePath(Path imageDirectory, String originalImageFilename) {
-        return imageDirectory.resolve(Objects.requireNonNull(getDecipheredTranscriptFilename(originalImageFilename)));
-    }
-    private void updateManuscript(Path imageDirectory, String originalImageFilename, Path filePath) {
-        Path imageCompletePath = imageDirectory.resolve(originalImageFilename);
-        Optional<Manuscript> manuscript = manuscriptRepository.getManuscriptByPathToImage(imageCompletePath.toAbsolutePath().toString());
-        if (manuscript.isPresent()){
-            manuscript.get().setPathToDecipheredText(filePath.toAbsolutePath().toString());
-            manuscriptRepository.save(manuscript.get());
+        catch (IOException e){
+            return null;
         }
-    }
-    private String extractFilenameWithoutExtension(String filename)
-    {
-        Path path = Paths.get(filename);
-        return path.getName(path.getNameCount() - 1).toString();
-    }
-    private String getDecipheredTranscriptFilename(String filename)
-    {
-        String filenameWithoutExtension = extractFilenameWithoutExtension(filename);
-        return filenameWithoutExtension + ".txt";
     }
     private Manuscript checkAndGetManuscriptByRequest(SpecificManuscriptDto request, UUID userId) {
 
@@ -185,10 +175,32 @@ public class ManuscriptService {
             throw new InvalidDataException("Manuscript id can't be null.");
         }
 
-        return manuscriptRepository.getManuscriptByIdAndNameAndUserId(
+        return manuscriptRepository.getManuscriptByIdAndUserId(
                 request.getManuscriptId(),
-                request.getName(),
                 userId).orElseThrow(() -> new NoAvailableDataForGivenInputException("No manuscript found for id:" +
                 request.getManuscriptId()));
+    }
+    private String getFilenameWithoutExtension(String filename){
+        return filename.substring(0, filename.lastIndexOf('.'));
+    }
+    private String getFilenameForDecipheredText(String filename){
+        return filename.substring(0, filename.lastIndexOf('.')) + "_deciphered";
+    }
+    private Path createDirectoryForUploadedManuscript(String filename, UUID userId) throws IOException {
+
+        String filenameWithoutExtension = getFilenameWithoutExtension(filename);
+        Path userDirectory = Paths.get(databaseDirectory.getAbsolutePath(), userId.toString());
+
+        if (!Files.exists(userDirectory)) {
+            Files.createDirectories(userDirectory);
+        }
+
+        Path uploadedManuscriptDirectory = Paths.get(userDirectory.toString(), filenameWithoutExtension);
+
+        if (!Files.exists(uploadedManuscriptDirectory)) {
+            Files.createDirectories(uploadedManuscriptDirectory);
+        }
+
+        return uploadedManuscriptDirectory;
     }
 }

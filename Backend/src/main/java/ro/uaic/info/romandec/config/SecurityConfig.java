@@ -21,7 +21,7 @@ public class SecurityConfig {
         http.cors(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests((authorize) ->
-                authorize.requestMatchers("/api/auth/**").permitAll()
+                authorize.requestMatchers("/api/**").permitAll()
                          .anyRequest().authenticated()
         );
 

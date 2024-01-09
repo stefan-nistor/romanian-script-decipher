@@ -4,21 +4,20 @@ import lombok.*;
 
 import java.util.UUID;
 
+@Data
 @Builder
-@Getter
-@Setter
-@AllArgsConstructor
 public class ManuscriptDetailedResponseDto {
 
     private UUID manuscriptId;
 
     private String name;
 
-    boolean deciphered;
-
     private String title;
 
     private String author;
 
     private String description;
+
+    private Integer yearOfPublication;
+
 }
