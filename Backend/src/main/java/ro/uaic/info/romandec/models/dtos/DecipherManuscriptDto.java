@@ -1,14 +1,9 @@
 package ro.uaic.info.romandec.models.dtos;
 
-import lombok.*;
-
-import java.util.UUID;
+import lombok.Data;
 
 @Data
-@Builder
-public class ManuscriptPreviewResponseDto {
-
-    private UUID manuscriptId;
+public class DecipherManuscriptDto {
 
     private String titleOfManuscript;
 
@@ -16,4 +11,5 @@ public class ManuscriptPreviewResponseDto {
 
     private Integer yearOfPublication;
 
+    private String description;
 }

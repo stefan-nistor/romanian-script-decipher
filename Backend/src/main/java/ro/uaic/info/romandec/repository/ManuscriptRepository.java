@@ -17,10 +17,6 @@ public interface ManuscriptRepository extends JpaRepository<Manuscript,Integer> 
             "manuscripts.path_to_deciphered_text is null " +
             "ORDER BY random() LIMIT 1", nativeQuery = true)
     String getRandomNotDecipheredManuscript();
-
-    Optional<Manuscript> getManuscriptByPathToImage(String pathToOriginalImage);
-
-    Optional<Manuscript> getManuscriptByIdAndNameAndUserId(UUID id, String name, UUID userId);
-
+    Optional<Manuscript> getManuscriptByIdAndUserId(UUID manuscriptId, UUID userId);
     List<Manuscript> getAllByUserId(UUID userId);
 }

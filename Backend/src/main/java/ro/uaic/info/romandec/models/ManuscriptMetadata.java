@@ -23,5 +23,6 @@ public class ManuscriptMetadata {
     private String author;
     private String title;
     private String description;
+    private Integer yearOfPublication;
 
 }

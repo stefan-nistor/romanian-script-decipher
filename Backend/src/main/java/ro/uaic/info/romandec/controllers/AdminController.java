@@ -24,21 +24,4 @@ public class AdminController {
         this.manuscriptService = manuscriptService;
     }
 
-    @PostMapping("/initializeTest")
-    public ResponseEntity<?> initializeTestData(@RequestParam("images") List<MultipartFile> images)
-    {
-        ResponseEntity<?> response;
-        try
-        {
-            boolean success = manuscriptService.initializeTestData(images);
-            response = success ?
-                    ResponseEntity.status(HttpStatus.OK).body("Success at initialization.") :
-                    ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed at initialization.");
-        }
-        catch (Exception e)
-        {
-            response = ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
-        return response;
-    }
 }

@@ -1,12 +1,9 @@
 package ro.uaic.info.romandec.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
 
-import java.util.Objects;
 import java.util.UUID;
 
 
@@ -24,11 +21,13 @@ public class Manuscript {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String pathToImage;
+    private String pathToOriginalText;
     private String pathToDecipheredText;
 
     @Column(unique=true)
-    private String name;
+    private String filename;
+
+    //data cand a fost adaugat
 
     @OneToOne
     private ManuscriptMetadata manuscriptMetadata;
