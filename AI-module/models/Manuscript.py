@@ -81,10 +81,12 @@ class ManuscriptUploading:
             return {"message": "A problem occur when trying to upload the manuscript", "errors": True}
 
     def get_key_document(self, collection_id, session_id, version_of_document):
-        url = f"https://transkribus.eu/TrpServer/rest/collections/{collection_id}/1737429/{version_of_document}"
+        # TODO put dynamically the doc id
+        url = f"https://transkribus.eu/TrpServer/rest/collections/{collection_id}/1737884/{version_of_document}"
         response = requests.get(url, cookies={"JSESSIONID": session_id})
         print(f'status code is {response.status_code}')
-        self.key = response.text.rsplit("<key>", maxsplit=1)[1].split("</key")[0]
+        # TODO improve the code logic here
+        self.key = response.text.rsplit("<key>", maxsplit=2)[1].split("</key")[0]
         print(f'the latest key is{self.key}')
         root = ET.fromstring(response.text)
         # self.key = root.find("key").text
@@ -92,7 +94,7 @@ class ManuscriptUploading:
         return response.text
 
     def apply_ocr_document(self, collection_id, session_id, model_id):
-        url = f"https://transkribus.eu/TrpServer/rest/pylaia/{collection_id}/{model_id}/recognition?id=1737429&pages=1&writeKwsIndex=false&doStructures=&clearLines=false&doWordSeg=true&allowConcurrentExecution=false&keepOriginalLinePolygons=false&useExistingLinePolygons=false"
+        url = f"https://transkribus.eu/TrpServer/rest/pylaia/{collection_id}/{model_id}/recognition?id=1737884&pages=1&writeKwsIndex=false&doStructures=&clearLines=false&doWordSeg=true&allowConcurrentExecution=false&keepOriginalLinePolygons=false&useExistingLinePolygons=false"
         response = requests.post(url, cookies={"JSESSIONID": session_id})
 
         url_get_translated_xml = f"https://files.transkribus.eu/Get?id={self.key}"
@@ -105,8 +107,6 @@ class ManuscriptUploading:
         url_get_translated_xml = f"https://files.transkribus.eu/Get?id={self.key}"
         print(f"url called {url_get_translated_xml}")
         response_req = requests.get(url_get_translated_xml, cookies={"JSESSIONID": session_id})
-        root = etree.fromstring(response_req.text.encode('utf-8'), parser=parser)
-
         print(f'the text is  {response_req.content}')
         # img = Image.open(BytesIO(response_req.content))
         # output_path = "models\\tmp\\image.png"  # Replace with the desired output path
