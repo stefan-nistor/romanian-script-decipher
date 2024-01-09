@@ -10,7 +10,7 @@ public class ManuscriptPreviewResponseDto {
 
     private UUID manuscriptId;
 
-    private String titleOfManuscript;
+    private String title;
 
     private String author;
 

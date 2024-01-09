@@ -55,27 +55,27 @@ public class ManuscriptService {
         return usersManuscripts.stream()
                 .map(m -> ManuscriptPreviewResponseDto.builder()
                         .manuscriptId(m.getId())
-                        .titleOfManuscript(m.getManuscriptMetadata().getTitle())
+                        .title(m.getManuscriptMetadata().getTitle())
                         .yearOfPublication(m.getManuscriptMetadata().getYearOfPublication())
                         .author(m.getManuscriptMetadata().getAuthor())
                         .build())
                 .collect(Collectors.toList());
     }
-    public ManuscriptDetailedResponseDto getSpecificManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId) {
+    public ManuscriptDetailedResponseDto getSpecificManuscript(UUID manuscriptId, UUID userId) {
 
-        Manuscript manuscript =  checkAndGetManuscriptByRequest(manuscriptRequest, userId);
+        Manuscript manuscript =  checkAndGetManuscriptByRequest(manuscriptId, userId);
         return ManuscriptDetailedResponseDto
                 .builder()
                 .manuscriptId(manuscript.getId())
-                .name(manuscript.getFilename())
+                .filename(manuscript.getFilename())
                 .title(manuscript.getManuscriptMetadata().getTitle())
                 .author(manuscript.getManuscriptMetadata().getAuthor())
                 .yearOfPublication(manuscript.getManuscriptMetadata().getYearOfPublication())
                 .description(manuscript.getManuscriptMetadata().getDescription())
                 .build();
     }
-    public void deleteManuscript(SpecificManuscriptDto manuscriptRequest, UUID userId) {
-        Manuscript manuscript = checkAndGetManuscriptByRequest(manuscriptRequest, userId);
+    public void deleteManuscript(UUID manuscriptId, UUID userId) {
+        Manuscript manuscript = checkAndGetManuscriptByRequest(manuscriptId, userId);
 
         Path manuscriptDirectory = Paths.get(manuscript.getPathToOriginalText()).getParent();
 
@@ -104,9 +104,9 @@ public class ManuscriptService {
         }
         return new File(pathOfRandomNotDecipheredImage);
     }
-    public FileSystemResource downloadOriginalManuscript(SpecificManuscriptDto request, UUID userId) {
+    public FileSystemResource downloadOriginalManuscript(UUID manuscriptId, UUID userId) {
 
-        Manuscript manuscript = checkAndGetManuscriptByRequest(request, userId);
+        Manuscript manuscript = checkAndGetManuscriptByRequest(manuscriptId, userId);
 
         if (manuscript.getPathToOriginalText() == null){
             throw new InvalidDataException("This manuscript is not deciphered");
@@ -141,9 +141,10 @@ public class ManuscriptService {
             //save into the db the manuscript with the associated metadata
             ManuscriptMetadata manuscriptMetadata = manuscriptMetadataRepository.save(ManuscriptMetadata
                     .builder()
-                    .title(decipherManuscriptDto.getTitleOfManuscript())
+                    .title(decipherManuscriptDto.getTitle())
                     .description(decipherManuscriptDto.getDescription())
                     .author(decipherManuscriptDto.getAuthor())
+                    .yearOfPublication((decipherManuscriptDto.getYearOfPublication()))
                     .build());
 
             Manuscript manuscript =  manuscriptRepository.save(Manuscript
@@ -160,7 +161,7 @@ public class ManuscriptService {
             return ManuscriptPreviewResponseDto
                     .builder()
                     .manuscriptId(manuscript.getId())
-                    .titleOfManuscript(manuscript.getManuscriptMetadata().getTitle())
+                    .title(manuscript.getManuscriptMetadata().getTitle())
                     .yearOfPublication(manuscript.getManuscriptMetadata().getYearOfPublication())
                     .author(manuscript.getManuscriptMetadata().getAuthor())
                     .build();
@@ -169,16 +170,16 @@ public class ManuscriptService {
             return null;
         }
     }
-    private Manuscript checkAndGetManuscriptByRequest(SpecificManuscriptDto request, UUID userId) {
+    private Manuscript checkAndGetManuscriptByRequest(UUID manuscriptId, UUID userId) {
 
-        if (request == null){
+        if (manuscriptId == null){
             throw new InvalidDataException("Manuscript id can't be null.");
         }
 
         return manuscriptRepository.getManuscriptByIdAndUserId(
-                request.getManuscriptId(),
+                manuscriptId,
                 userId).orElseThrow(() -> new NoAvailableDataForGivenInputException("No manuscript found for id:" +
-                request.getManuscriptId()));
+                manuscriptId));
     }
     private String getFilenameWithoutExtension(String filename){
         return filename.substring(0, filename.lastIndexOf('.'));

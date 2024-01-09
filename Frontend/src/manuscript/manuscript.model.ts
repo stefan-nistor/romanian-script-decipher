@@ -1,6 +1,8 @@
 export interface Manuscript {
-    id: string,
-    titleOfManuscript: string,
-    author: string,
-    yearOfPublication: number
+  manuscriptId: string;
+  title: string;
+  author: string;
+  yearOfPublication: number;
+  filename: string;
+  description: string;
 }

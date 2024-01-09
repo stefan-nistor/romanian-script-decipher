@@ -10,7 +10,7 @@ public class ManuscriptDetailedResponseDto {
 
     private UUID manuscriptId;
 
-    private String name;
+    private String filename;
 
     private String title;
 
