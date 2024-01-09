@@ -51,7 +51,8 @@ async def receive_path():
     manuscript_uploading = ManuscriptUploading(name="BCUTimișoara689841.jpg",
                                                collection_id=__COLLECTION_ID__)
     status = manuscript_uploading.upload_manuscript(transkribusAPI.session_id)
-    status2 = manuscript_uploading.get_manuscript_status(transkribusAPI.session_id)
+    status2 = manuscript_uploading.get_manuscript_status(session_id=transkribusAPI.session_id,
+                                                         job_id=manuscript_uploading.job_id)
     return status2
 
 
@@ -80,10 +81,21 @@ def get_document(collection_id: int, document_id: int):
 
 # ENDPOINTS -> OCR and NLP
 # TODO build process OCR
-@prefix_router.post("/ocr/", status_code=201)
-async def process_image_ocr():
-    url = f"{transkribus_base_url}/recognition/{__COLLECTION_ID__}/{__HTR_MODEL_ID__}/trhtr"
-    return {"text": ""}
+# @prefix_router.post("/ocr/", status_code=201)
+# async def process_image_ocr():
+#     #url = f"{transkribus_base_url}/recognition/{__COLLECTION_ID__}/{__HTR_MODEL_ID__}/trhtr"
+#     return {"text": ""}
+
+
+@prefix_router.get("/ocr", status_code=200)
+async def test_api():
+    manuscript_uploading = ManuscriptUploading(name="BCUTimișoara689841.jpg",
+                                               collection_id=__COLLECTION_ID__)
+    response = manuscript_uploading.get_key_document(session_id=transkribusAPI.session_id,
+                                                     collection_id=__COLLECTION_ID__, version_of_document=1)
+    #status = manuscript_uploading.apply_ocr_document(session_id=transkribusAPI.session_id, collection_id= __COLLECTION_ID__,model_id=__HTR_MODEL_ID__)
+    status = manuscript_uploading.get_already_ocr_document(transkribusAPI.session_id)
+    return status
 
 
 # TODO build process NLP

@@ -1,5 +1,10 @@
 import requests
 import os
+import xml.etree.ElementTree as ET
+from lxml import etree
+from PIL import Image
+from io import BytesIO
+parser = etree.XMLParser(recover=True)
 
 TMP_MANUSCRIPTS_DIR = "uploads"
 
@@ -11,6 +16,9 @@ class ManuscriptUploading:
     collection_id: int
     upload_id: int
     job_id: int
+    doc_id: int
+    key: str
+    transcripted_key: str
 
     def __init__(self, name, collection_id):
         self.name = name
@@ -66,10 +74,47 @@ class ManuscriptUploading:
                                     files=files, cookies={"JSESSIONID": session_id})
             print("dupa")
             self.job_id = int(response.text.split("jobId>")[1].replace("</", ""))
+            self.doc_id = int(response.text.split("docId>")[1].replace("</", ""))
             return {"message": f"Start uploading manuscript, with job id: {self.job_id}", "errors": False}
         else:
             print(response.status_code)
             return {"message": "A problem occur when trying to upload the manuscript", "errors": True}
+
+    def get_key_document(self, collection_id, session_id, version_of_document):
+        url = f"https://transkribus.eu/TrpServer/rest/collections/{collection_id}/1737429/{version_of_document}"
+        response = requests.get(url, cookies={"JSESSIONID": session_id})
+        print(f'status code is {response.status_code}')
+        self.key = response.text.rsplit("<key>", maxsplit=1)[1].split("</key")[0]
+        print(f'the latest key is{self.key}')
+        root = ET.fromstring(response.text)
+        # self.key = root.find("key").text
+        print(f"the key is {self.key}")
+        return response.text
+
+    def apply_ocr_document(self, collection_id, session_id, model_id):
+        url = f"https://transkribus.eu/TrpServer/rest/pylaia/{collection_id}/{model_id}/recognition?id=1737429&pages=1&writeKwsIndex=false&doStructures=&clearLines=false&doWordSeg=true&allowConcurrentExecution=false&keepOriginalLinePolygons=false&useExistingLinePolygons=false"
+        response = requests.post(url, cookies={"JSESSIONID": session_id})
+
+        url_get_translated_xml = f"https://files.transkribus.eu/Get?id={self.key}"
+        response_req = requests.get(url_get_translated_xml, cookies={"JSESSIONID": session_id})
+        root = etree.fromstring(response_req.text.encode('utf-8'), parser=parser)
+        print(f'status code is {response.text}')
+        return root
+
+    def get_already_ocr_document(self, session_id):
+        url_get_translated_xml = f"https://files.transkribus.eu/Get?id={self.key}"
+        print(f"url called {url_get_translated_xml}")
+        response_req = requests.get(url_get_translated_xml, cookies={"JSESSIONID": session_id})
+        root = etree.fromstring(response_req.text.encode('utf-8'), parser=parser)
+
+        print(f'the text is  {response_req.content}')
+        # img = Image.open(BytesIO(response_req.content))
+        # output_path = "models\\tmp\\image.png"  # Replace with the desired output path
+        # img.save(output_path)
+        # # creator = root.find('.//{http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15}Creator').text
+        # # print("Creator:", creator)
+        print(f'req status is {response_req.text}')
+        return response_req.text
 
     @staticmethod
     def get_manuscript_status(job_id: int, session_id: str):
