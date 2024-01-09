@@ -27,4 +27,7 @@ Thumbs.db
 # Ignore dependencies
 package-lock.json
 yarn.lock
-.angular
+
+.gradle
+build/
+.idea
