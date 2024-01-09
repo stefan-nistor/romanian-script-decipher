@@ -1,16 +1,10 @@
-import base64
-import time
-
-from pydantic import BaseModel
 import requests
-from utils.utils_variables import __URL__, __COLLECTION_ID__
+import os
 
-import codecs
+TMP_MANUSCRIPTS_DIR = "uploads"
 
 
 # TODO better logging, model view and processes
-
-
 class ManuscriptUploading:
     name: str
     path: str
@@ -18,17 +12,27 @@ class ManuscriptUploading:
     upload_id: int
     job_id: int
 
-    def __init__(self, name, path, collection_id):
+    def __init__(self, name, collection_id):
         self.name = name
-        self.path = path
         self.collection_id = collection_id
+        self.path = os.path.join(TMP_MANUSCRIPTS_DIR, self.name)
 
-    def upload_manuscript(self, session_id):
-        upload_url = f"https://transkribus.eu/TrpServer/rest/uploads?collId={self.collection_id}"
-        print(f"collection id is {self.collection_id}")
+    def save_manuscript(self, file):
+        manuscript_path = os.path.join(TMP_MANUSCRIPTS_DIR, self.name)
+        with open(manuscript_path, "wb") as f:
+            f.write(file.file.read())
+        self.path = manuscript_path
+
+    def delete_manuscript(self):
+        if os.path.exists(self.path):
+            os.remove(self.path)
+            return True
+        return False
+
+    def create_manuscript_request_data(self):
         data = {
             "md": {
-                "title": "BCUTimișoara",
+                "title": os.path.splitext(self.name)[0],
                 "author": "",
                 "genre": "",
                 "writer": ""
@@ -40,6 +44,12 @@ class ManuscriptUploading:
                 }
             ]}
         }
+        return data
+
+    def upload_manuscript(self, session_id):
+        upload_url = f"https://transkribus.eu/TrpServer/rest/uploads?collId={self.collection_id}"
+        print(f"collection id is {self.collection_id}")
+        data = self.create_manuscript_request_data()
 
         response = requests.post(upload_url, cookies={"JSESSIONID": session_id}, json=data)
         if response.status_code == 201 or response.status_code == 200:
@@ -56,14 +66,15 @@ class ManuscriptUploading:
                                     files=files, cookies={"JSESSIONID": session_id})
             print("dupa")
             self.job_id = int(response.text.split("jobId>")[1].replace("</", ""))
-            return response.text
+            return {"message": f"Start uploading manuscript, with job id: {self.job_id}", "errors": False}
         else:
             print(response.status_code)
-            return response.text
+            return {"message": "A problem occur when trying to upload the manuscript", "errors": True}
 
-    def get_manuscript_status(self, session_id):
-        url = f"https://transkribus.eu/TrpServer/rest/jobs/{self.job_id}"
-        print(f"Job id for the manuscript is {self.job_id}")
+    @staticmethod
+    def get_manuscript_status(job_id: int, session_id: str):
+        url = f"https://transkribus.eu/TrpServer/rest/jobs/{job_id}"
+        print(f"Job id for the manuscript is {job_id}")
         response = requests.get(url, cookies={"JSESSIONID": session_id})
         # while response.json["state"] != 'FINISHED':
         #     export_status = requests.get(f'https://transkribus.eu/TrpServer/rest/jobs/{self.job_id}')
