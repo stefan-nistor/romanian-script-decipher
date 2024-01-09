@@ -6,7 +6,13 @@
       <li class="nav-item"><a class="nav-link" [routerLink]="['upload']"> Upload File</a></li>
     </ul>
     <ul class="navbar-nav ms-auto">
-      <li class="nav-item"><a class="nav-link"> Login </a></li>
+      <div *ngIf="!this.loginService.isLoggedIn">
+        <li class="nav-item"><a class="nav-link" [routerLink]="['login']"> Login </a></li>
+      </div>
+      <div class="ms-auto d-flex align-items-center" *ngIf="this.loginService.isLoggedIn">
+        <li class="nav-item"><a class="nav-link" [routerLink]="['account']"> My account </a></li>
+        <li class="nav-item"><a class="nav-link" (click)="logout()"> Logout </a></li>
+      </div>
     </ul>
   </nav>
   <router-outlet></router-outlet>
