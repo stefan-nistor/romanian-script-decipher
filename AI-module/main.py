@@ -36,7 +36,10 @@ async def upload_manuscript(file: UploadFile = File(...)):
     # delete saved manuscript
     manuscript_uploading.delete_manuscript()
 
-    return response
+    if not response["errors"]:
+        return {"message": response["message"], "filename": file.filename, "errors": False, "jobId": response["jobId"]}
+    else:
+        return {"message": response["message"], "filename": file.filename, "errors": True}
 
 
 @prefix_router.get("/upload_manuscript/{job_id}")
@@ -80,22 +83,16 @@ def get_document(collection_id: int, document_id: int):
 
 
 # ENDPOINTS -> OCR and NLP
-# TODO build process OCR
-# @prefix_router.post("/ocr/", status_code=201)
-# async def process_image_ocr():
-#     #url = f"{transkribus_base_url}/recognition/{__COLLECTION_ID__}/{__HTR_MODEL_ID__}/trhtr"
-#     return {"text": ""}
-
-
-@prefix_router.get("/ocr", status_code=200)
-async def test_api():
-    manuscript_uploading = ManuscriptUploading(name="BCUTimișoara689841.jpg",
+@prefix_router.post("/ocr", status_code=200)
+async def test_api(filename: str):
+    manuscript_uploading = ManuscriptUploading(name=filename,
                                                collection_id=__COLLECTION_ID__)
-    response = manuscript_uploading.get_key_document(session_id=transkribusAPI.session_id,
-                                                     collection_id=__COLLECTION_ID__, version_of_document=1)
-    #status = manuscript_uploading.apply_ocr_document(session_id=transkribusAPI.session_id, collection_id= __COLLECTION_ID__,model_id=__HTR_MODEL_ID__)
-    status = manuscript_uploading.get_already_ocr_document(transkribusAPI.session_id)
-    return status
+    manuscript_uploading.get_key_document(session_id=transkribusAPI.session_id,
+                                          collection_id=__COLLECTION_ID__, version_of_document=1)
+    ocr_text = manuscript_uploading.apply_ocr_document(session_id=transkribusAPI.session_id,
+                                                       collection_id=__COLLECTION_ID__, model_id=__HTR_MODEL_ID__)
+
+    return {"ocr": ocr_text}
 
 
 # TODO build process NLP

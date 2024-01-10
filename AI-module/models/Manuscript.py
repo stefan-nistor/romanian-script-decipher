@@ -2,8 +2,7 @@ import requests
 import os
 import xml.etree.ElementTree as ET
 from lxml import etree
-from PIL import Image
-from io import BytesIO
+
 parser = etree.XMLParser(recover=True)
 
 TMP_MANUSCRIPTS_DIR = "uploads"
@@ -75,7 +74,8 @@ class ManuscriptUploading:
             print("dupa")
             self.job_id = int(response.text.split("jobId>")[1].replace("</", ""))
             self.doc_id = int(response.text.split("docId>")[1].replace("</", ""))
-            return {"message": f"Start uploading manuscript, with job id: {self.job_id}", "errors": False}
+            return {"message": f"Start uploading manuscript, with job id: {self.job_id}", "errors": False,
+                    "jobId": self.job_id}
         else:
             print(response.status_code)
             return {"message": "A problem occur when trying to upload the manuscript", "errors": True}
@@ -84,24 +84,37 @@ class ManuscriptUploading:
         # TODO put dynamically the doc id
         url = f"https://transkribus.eu/TrpServer/rest/collections/{collection_id}/1737884/{version_of_document}"
         response = requests.get(url, cookies={"JSESSIONID": session_id})
-        print(f'status code is {response.status_code}')
+
         # TODO improve the code logic here
         self.key = response.text.rsplit("<key>", maxsplit=2)[1].split("</key")[0]
-        print(f'the latest key is{self.key}')
-        root = ET.fromstring(response.text)
-        # self.key = root.find("key").text
-        print(f"the key is {self.key}")
-        return response.text
 
     def apply_ocr_document(self, collection_id, session_id, model_id):
         url = f"https://transkribus.eu/TrpServer/rest/pylaia/{collection_id}/{model_id}/recognition?id=1737884&pages=1&writeKwsIndex=false&doStructures=&clearLines=false&doWordSeg=true&allowConcurrentExecution=false&keepOriginalLinePolygons=false&useExistingLinePolygons=false"
-        response = requests.post(url, cookies={"JSESSIONID": session_id})
+        requests.post(url, cookies={"JSESSIONID": session_id})
 
         url_get_translated_xml = f"https://files.transkribus.eu/Get?id={self.key}"
         response_req = requests.get(url_get_translated_xml, cookies={"JSESSIONID": session_id})
-        root = etree.fromstring(response_req.text.encode('utf-8'), parser=parser)
-        print(f'status code is {response.text}')
-        return root
+
+        final_text = ''
+        root = ET.fromstring(response_req.text)
+        for child in root:
+            if "Page" in child.tag:
+                for pageChild in child:
+                    if "TextRegion" in pageChild.tag:
+                        textRegion = pageChild
+                        textRegionChildren = list(textRegion)
+                        for trKid in textRegionChildren:
+                            if "TextLine" in trKid.tag:
+                                for element in trKid:
+                                    if "TextEquiv" in element.tag:
+                                        for teKid in element:
+                                            if "Unicode" in teKid.tag:
+                                                text = teKid.text
+                                                print(text)
+                                                final_text += text
+                                final_text += '\n'
+
+        return final_text
 
     def get_already_ocr_document(self, session_id):
         url_get_translated_xml = f"https://files.transkribus.eu/Get?id={self.key}"

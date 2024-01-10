@@ -37,10 +37,12 @@ class TranskribusAPI:
         }
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
+        print("trimit loginul")
         response = self.post(api_url, data, headers)
 
         root = ET.fromstring(response.text)
         self.session_id = root.find("sessionId").text
+        print("Session ID: ", self.session_id)
         self.session_cookie = {"JSESSIONID": self.session_id}
 
         return {"message": "Login was made successfully!", "errors": False}

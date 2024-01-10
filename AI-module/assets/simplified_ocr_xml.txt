@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PcGts>
+    <Page>
+        <TextRegion>
+            <TextLine id="tr_1_tl_1" custom="readingOrder {index:0;}">
+                <TextEquiv>
+                    <Unicode>276</Unicode>
+                </TextEquiv>
+            </TextLine>
+        </TextRegion>
+    </Page>
+</PcGts>
