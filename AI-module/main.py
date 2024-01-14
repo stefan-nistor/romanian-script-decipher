@@ -6,6 +6,7 @@ load_dotenv()
 
 from models.TranskribusAPI import TranskribusAPI
 from models.Manuscript import ManuscriptUploading
+from PIL import Image, ImageDraw, ImageFont
 from utils.utils_variables import __COLLECTION_ID__, __API_BASE_URL__, __HTR_MODEL_ID__, __NLP_MODEL_ID__
 
 app = FastAPI(
@@ -37,7 +38,8 @@ async def upload_manuscript(file: UploadFile = File(...)):
     manuscript_uploading.delete_manuscript()
 
     if not response["errors"]:
-        return {"message": response["message"], "filename": file.filename, "errors": False, "jobId": response["jobId"]}
+        return {"message": response["message"], "filename": file.filename, "errors": False, "jobId": response["jobId"],
+                "docId": response["docId"]}
     else:
         return {"message": response["message"], "filename": file.filename, "errors": True}
 
@@ -46,17 +48,6 @@ async def upload_manuscript(file: UploadFile = File(...)):
 async def get_upload_manuscript_job_status(job_id: int):
     response = ManuscriptUploading.get_manuscript_status(job_id, transkribusAPI.session_id)
     return response
-
-
-# endpoint de test, in viitor trebuie inlocuit cu @app.post("/ap1/v1/upload_manuscript")
-@prefix_router.get("/upload", status_code=200)
-async def receive_path():
-    manuscript_uploading = ManuscriptUploading(name="BCUTimișoara689841.jpg",
-                                               collection_id=__COLLECTION_ID__)
-    status = manuscript_uploading.upload_manuscript(transkribusAPI.session_id)
-    status2 = manuscript_uploading.get_manuscript_status(session_id=transkribusAPI.session_id,
-                                                         job_id=manuscript_uploading.job_id)
-    return status2
 
 
 # ENDPOINTS -> Collections
@@ -84,21 +75,38 @@ def get_document(collection_id: int, document_id: int):
 
 # ENDPOINTS -> OCR and NLP
 @prefix_router.post("/ocr", status_code=200)
-async def test_api(filename: str):
+async def apply_ocr_on_document(filename: str, document_id: str):
     manuscript_uploading = ManuscriptUploading(name=filename,
                                                collection_id=__COLLECTION_ID__)
-    manuscript_uploading.get_key_document(session_id=transkribusAPI.session_id,
+    manuscript_uploading.get_key_document(document_id=document_id, session_id=transkribusAPI.session_id,
                                           collection_id=__COLLECTION_ID__, version_of_document=1)
-    ocr_text = manuscript_uploading.apply_ocr_document(session_id=transkribusAPI.session_id,
+    ocr_text = manuscript_uploading.apply_ocr_document(document_id=document_id, session_id=transkribusAPI.session_id,
                                                        collection_id=__COLLECTION_ID__, model_id=__HTR_MODEL_ID__)
+
+    # img = Image.new("RGB", (595, 842), color="white")
+    # d = ImageDraw.Draw(img)
+    # unicode_font = ImageFont.truetype("./assets/GentiumPlus-Regular.ttf", 18)
+    # d.text((10, 10), text=ocr_text, font=unicode_font, fill="black")
+    # img.save("test4.jpg", "JPEG")
 
     return {"ocr": ocr_text}
 
 
 # TODO build process NLP
 @prefix_router.post("/nlp/", status_code=201)
-async def process_image_htr(path_to_manuscript: str, model_htr):
-    return {"text": ""}
+async def apply_nlp_on_document(filename: str, document_id: int):
+    manuscript_uploading = ManuscriptUploading(name=filename,
+                                               collection_id=__COLLECTION_ID__)
+    manuscript_uploading.get_key_document(session_id=transkribusAPI.session_id,
+                                          document_id=document_id,
+                                          collection_id=__COLLECTION_ID__,
+                                          version_of_document=1
+                                          )
+    nlp = manuscript_uploading.apply_nlp_document(document_id=document_id, session_id=transkribusAPI.session_id,
+                                                  collection_id=__COLLECTION_ID__,
+                                                  model_id=__NLP_MODEL_ID__)
+
+    return {"text": nlp}
 
 
 app.include_router(prefix_router)
