@@ -29,7 +29,7 @@ public class ManuscriptController {
                                                 @RequestParam("manuscriptDetails") String decipherManuscriptJSON) {
 
         //replace this with method for extracting user id from jwt;
-        UUID userId = UUID.fromString("77872158-dafb-4b4d-aa56-0ea99c5bf91f");
+        UUID userId = UUID.fromString("b6f22768-e6d6-43e3-af3f-ee52891d69dc");
 
         ManuscriptPreviewResponseDto response = manuscriptService.decipherTranscript(manuscript, decipherManuscriptJSON, userId);
 

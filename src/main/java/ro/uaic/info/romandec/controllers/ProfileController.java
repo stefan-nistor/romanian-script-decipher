@@ -31,7 +31,7 @@ public class ProfileController {
     public ResponseEntity<?> getAllUsersManuscripts() throws NoAvailableDataForGivenInputException {
 
         //replace this with method for extracting user id from jwt;
-        UUID userId = UUID.fromString("77872158-dafb-4b4d-aa56-0ea99c5bf91f");
+        UUID userId = UUID.fromString("b6f22768-e6d6-43e3-af3f-ee52891d69dc");
 
         List<ManuscriptPreviewResponseDto> allUsersManuscripts = manuscriptService.getAllUsersManuscripts(userId);
 
@@ -47,7 +47,7 @@ public class ProfileController {
             throws NoAvailableDataForGivenInputException, InvalidDataException {
 
         //replace this with method for extracting user id from jwt;
-        UUID userId = UUID.fromString("77872158-dafb-4b4d-aa56-0ea99c5bf91f");
+        UUID userId = UUID.fromString("b6f22768-e6d6-43e3-af3f-ee52891d69dc");
         ManuscriptDetailedResponseDto manuscript = manuscriptService.getSpecificManuscript(manuscriptId, userId);
 
         return ResponseEntity.status(HttpStatus.OK).body(manuscript);
@@ -58,7 +58,7 @@ public class ProfileController {
             throws NoAvailableDataForGivenInputException, InvalidDataException {
 
         //replace this with method for extracting user id from jwt;
-        UUID userId = UUID.fromString("77872158-dafb-4b4d-aa56-0ea99c5bf91f");
+        UUID userId = UUID.fromString("b6f22768-e6d6-43e3-af3f-ee52891d69dc");
 
         manuscriptService.deleteManuscript(manuscriptId, userId);
 
@@ -70,7 +70,7 @@ public class ProfileController {
             throws NoAvailableDataForGivenInputException, InvalidDataException, IOException {
 
         //replace this with method for extracting user id from jwt;
-        UUID userId = UUID.fromString("77872158-dafb-4b4d-aa56-0ea99c5bf91f");
+        UUID userId = UUID.fromString("b6f22768-e6d6-43e3-af3f-ee52891d69dc");
 
         FileSystemResource manuscript =  manuscriptService.downloadOriginalManuscript(manuscriptId, userId);
 

@@ -23,12 +23,9 @@ export class ManuscriptService {
   }
 
   addManuscript(manuscript: FormData): Observable<Manuscript> {
-    const x = this.path + '/manuscript/decipher';
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json', // Adjust the content type based on your API requirements
-    });
-
-    return this.http.post<Manuscript>(x, manuscript, { headers });
+    const url = this.path + '/manuscript/decipher';
+    // Do not set Content-Type header manually
+    return this.http.post<Manuscript>(url, manuscript);
   }
 
   deleteManuscript(id: string): Observable<void> {
