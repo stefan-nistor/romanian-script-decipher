@@ -37,7 +37,6 @@ class TranskribusAPI:
         }
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
-        print("trimit loginul")
         response = self.post(api_url, data, headers)
 
         root = ET.fromstring(response.text)

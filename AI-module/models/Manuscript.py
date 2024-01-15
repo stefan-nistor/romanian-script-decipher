@@ -1,13 +1,14 @@
 import requests
 import os
 import xml.etree.ElementTree as ET
+import json
 from lxml import etree
 
 parser = etree.XMLParser(recover=True)
 
 TMP_MANUSCRIPTS_DIR = "uploads"
 
-
+# TODO translate from cyrillic to romanian
 # TODO better logging, model view and processes
 class ManuscriptUploading:
     name: str
@@ -79,14 +80,18 @@ class ManuscriptUploading:
     def get_key_document(self, document_id, collection_id, session_id, version_of_document):
         url = f"https://transkribus.eu/TrpServer/rest/collections/{collection_id}/{document_id}/{version_of_document}"
         response = requests.get(url, cookies={"JSESSIONID": session_id})
-
         # TODO improve the code logic here
         self.key = response.text.rsplit("<key>", maxsplit=2)[1].split("</key")[0]
 
-    def apply_ocr_document(self, document_id, collection_id, session_id, model_id):
-        url = f"https://transkribus.eu/TrpServer/rest/pylaia/{collection_id}/{model_id}/recognition?id=1737884&pages=1&writeKwsIndex=false&doStructures=&clearLines=false&doWordSeg=true&allowConcurrentExecution=false&keepOriginalLinePolygons=false&useExistingLinePolygons=false"
-        requests.post(url, cookies={"JSESSIONID": session_id})
+    def start_model_translation(self, document_id, collection_id, session_id, model_id):
+        url = f"https://transkribus.eu/TrpServer/rest/pylaia/{collection_id}/{model_id}/recognition?id={document_id}&pages=1&writeKwsIndex=false&doStructures=&clearLines=false&doWordSeg=true&allowConcurrentExecution=false&keepOriginalLinePolygons=false&useExistingLinePolygons=false"
+        ocr_response = requests.post(url, cookies={"JSESSIONID": session_id})
+        print("Am trecut de primul request")
+        print(ocr_response.text)
 
+        return {"text_recognition_job_id": ocr_response.text}
+
+    def get_translated_xml_text(self, session_id):
         url_get_translated_xml = f"https://files.transkribus.eu/Get?id={self.key}"
         response_req = requests.get(url_get_translated_xml, cookies={"JSESSIONID": session_id})
 
@@ -113,54 +118,14 @@ class ManuscriptUploading:
 
         return final_text
 
-    def apply_nlp_document(self, document_id, collection_id, session_id, model_id):
-        url = f"https://transkribus.eu/TrpServer/rest/pylaia/{collection_id}/{model_id}/recognition?id={document_id}&pages=1&writeKwsIndex=false&doStructures=&clearLines=false&doWordSeg=true&allowConcurrentExecution=false&keepOriginalLinePolygons=false&useExistingLinePolygons=false"
-        nlp_response = requests.post(url, cookies={"JSESSIONID": session_id})
-
-        url_get_translated_xml = f"https://files.transkribus.eu/Get?id={self.key}"
-        response_req = requests.get(url_get_translated_xml, cookies={"JSESSIONID": session_id})
-
-        final_text = ''
-        root = ET.fromstring(response_req.text)
-        for child in root:
-            if "Page" in child.tag:
-                for pageChild in child:
-                    if "TextRegion" in pageChild.tag:
-                        textRegion = pageChild
-                        textRegionChildren = list(textRegion)
-                        for trKid in textRegionChildren:
-                            if "TextLine" in trKid.tag:
-                                for element in trKid:
-                                    if "TextEquiv" in element.tag:
-                                        for teKid in element:
-                                            if "Unicode" in teKid.tag:
-                                                text = teKid.text
-                                                print(text)
-                                                final_text += text
-                                final_text += '\n'
-
-        return final_text
-
-    def get_already_ocr_document(self, session_id):
-        url_get_translated_xml = f"https://files.transkribus.eu/Get?id={self.key}"
-        print(f"url called {url_get_translated_xml}")
-        response_req = requests.get(url_get_translated_xml, cookies={"JSESSIONID": session_id})
-        print(f'the text is  {response_req.content}')
-        # img = Image.open(BytesIO(response_req.content))
-        # output_path = "models\\tmp\\image.png"  # Replace with the desired output path
-        # img.save(output_path)
-        # # creator = root.find('.//{http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15}Creator').text
-        # # print("Creator:", creator)
-        print(f'req status is {response_req.text}')
-        return response_req.text
-
     @staticmethod
     def get_manuscript_status(job_id: int, session_id: str):
         url = f"https://transkribus.eu/TrpServer/rest/jobs/{job_id}"
-        print(f"Job id for the manuscript is {job_id}")
         response = requests.get(url, cookies={"JSESSIONID": session_id})
-        # while response.json["state"] != 'FINISHED':
-        #     export_status = requests.get(f'https://transkribus.eu/TrpServer/rest/jobs/{self.job_id}')
-        #     export_status = export_status.json()
-        #     time.sleep(10)
-        return response.text
+
+        json_format_response = response.text.replace('\\"', '"')
+        json_object = json.loads(json_format_response)
+
+        return json_object["state"]
+
+

@@ -1,12 +1,11 @@
 import uvicorn
 from fastapi import FastAPI, UploadFile, File, APIRouter
-from dotenv import load_dotenv
 
+from dotenv import load_dotenv
 load_dotenv()
 
 from models.TranskribusAPI import TranskribusAPI
 from models.Manuscript import ManuscriptUploading
-from PIL import Image, ImageDraw, ImageFont
 from utils.utils_variables import __COLLECTION_ID__, __API_BASE_URL__, __HTR_MODEL_ID__, __NLP_MODEL_ID__
 
 app = FastAPI(
@@ -25,8 +24,8 @@ def login_to_transkribus():
     return response
 
 
-# ENDPOINTS -> uploading manuscript to transkribus
-@prefix_router.post("/upload_manuscript")
+# Uploading manuscript to transkribus
+@prefix_router.post("/upload_manuscript", status_code=201)
 async def upload_manuscript(file: UploadFile = File(...)):
     manuscript_uploading = ManuscriptUploading(name=file.filename, collection_id=__COLLECTION_ID__)
 
@@ -44,8 +43,9 @@ async def upload_manuscript(file: UploadFile = File(...)):
         return {"message": response["message"], "filename": file.filename, "errors": True}
 
 
-@prefix_router.get("/upload_manuscript/{job_id}")
-async def get_upload_manuscript_job_status(job_id: int):
+# Get job status
+@prefix_router.get("/job_status/{job_id}")
+async def get_job_status(job_id: int):
     response = ManuscriptUploading.get_manuscript_status(job_id, transkribusAPI.session_id)
     return response
 
@@ -74,27 +74,39 @@ def get_document(collection_id: int, document_id: int):
 
 
 # ENDPOINTS -> OCR and NLP
-@prefix_router.post("/ocr", status_code=200)
-async def apply_ocr_on_document(filename: str, document_id: str):
+# OCR
+@prefix_router.post("/ocr/send_to_recognition", status_code=201)
+async def apply_ocr_on_document(filename: str, document_id: int):
+    manuscript_uploading = ManuscriptUploading(name=filename,
+                                               collection_id=__COLLECTION_ID__)
+    job_id = manuscript_uploading.start_model_translation(document_id=document_id, session_id=transkribusAPI.session_id,
+                                                          collection_id=__COLLECTION_ID__, model_id=__HTR_MODEL_ID__)
+
+    return {"text_recognition_job_id": job_id["text_recognition_job_id"]}
+
+@prefix_router.get("/ocr/get_translated_xml_text", status_code=200)
+async def get_translated_ocr_xml(filename: str, document_id: int):
     manuscript_uploading = ManuscriptUploading(name=filename,
                                                collection_id=__COLLECTION_ID__)
     manuscript_uploading.get_key_document(document_id=document_id, session_id=transkribusAPI.session_id,
                                           collection_id=__COLLECTION_ID__, version_of_document=1)
-    ocr_text = manuscript_uploading.apply_ocr_document(document_id=document_id, session_id=transkribusAPI.session_id,
-                                                       collection_id=__COLLECTION_ID__, model_id=__HTR_MODEL_ID__)
+    translated_ocr = manuscript_uploading.get_translated_xml_text(transkribusAPI.session_id)
 
-    # img = Image.new("RGB", (595, 842), color="white")
-    # d = ImageDraw.Draw(img)
-    # unicode_font = ImageFont.truetype("./assets/GentiumPlus-Regular.ttf", 18)
-    # d.text((10, 10), text=ocr_text, font=unicode_font, fill="black")
-    # img.save("test4.jpg", "JPEG")
-
-    return {"ocr": ocr_text}
+    return translated_ocr
 
 
-# TODO build process NLP
-@prefix_router.post("/nlp/", status_code=201)
+# NLP
+@prefix_router.post("/nlp/send_to_recognition", status_code=201)
 async def apply_nlp_on_document(filename: str, document_id: int):
+    manuscript_uploading = ManuscriptUploading(name=filename,
+                                               collection_id=__COLLECTION_ID__)
+    job_id = manuscript_uploading.start_model_translation(document_id=document_id, session_id=transkribusAPI.session_id,
+                                                          collection_id=__COLLECTION_ID__, model_id=__NLP_MODEL_ID__)
+
+    return {"text_recognition_job_id": job_id["text_recognition_job_id"]}
+
+@prefix_router.get("/nlp/get_translated_xml_text", status_code=200)
+async def get_translated_nlp_xml(filename: str, document_id: int):
     manuscript_uploading = ManuscriptUploading(name=filename,
                                                collection_id=__COLLECTION_ID__)
     manuscript_uploading.get_key_document(session_id=transkribusAPI.session_id,
@@ -102,11 +114,9 @@ async def apply_nlp_on_document(filename: str, document_id: int):
                                           collection_id=__COLLECTION_ID__,
                                           version_of_document=1
                                           )
-    nlp = manuscript_uploading.apply_nlp_document(document_id=document_id, session_id=transkribusAPI.session_id,
-                                                  collection_id=__COLLECTION_ID__,
-                                                  model_id=__NLP_MODEL_ID__)
+    translated_nlp = manuscript_uploading.get_translated_xml_text(transkribusAPI.session_id)
 
-    return {"text": nlp}
+    return translated_nlp
 
 
 app.include_router(prefix_router)
