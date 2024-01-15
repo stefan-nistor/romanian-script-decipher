@@ -11,7 +11,6 @@ import { ManuscriptService } from 'src/manuscript/manuscript.service';
 })
 export class FileUploadComponent {
   uploadForm!: FormGroup;
-  pdfSrc = '/CV_Ștefan_Roman.pdf';
   selectedFile!: File;
 
   constructor(
