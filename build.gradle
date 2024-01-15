@@ -7,7 +7,7 @@ plugins {
 
 sonar {
     properties {
-        property "sonar.projectKey", "stefan-nistor_romanian-script-decipher"
+        property "sonar.projectKey", "romanian-script-decipher_backend"
         property "sonar.organization", "stefan-nistor"
         property "sonar.host.url", "https://sonarcloud.io"
     }
