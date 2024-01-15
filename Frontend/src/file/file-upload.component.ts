@@ -11,6 +11,7 @@ import { ManuscriptService } from 'src/manuscript/manuscript.service';
 })
 export class FileUploadComponent {
   uploadForm!: FormGroup;
+  selectedFile!: File;
 
   constructor(
     private fb: FormBuilder,
@@ -30,26 +31,35 @@ export class FileUploadComponent {
   }
 
   onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    this.uploadForm.patchValue({ file });
-    this.uploadForm.get('uploadedFile')?.updateValueAndValidity();
+    // const file = event.target.files[0];
+    // this.uploadForm.patchValue({ file });
+    // this.uploadForm.get('uploadedFile')?.updateValueAndValidity();
+
+    this.selectedFile = event.target.files[0];
   }
 
   Decypher(): void {
     if (this.uploadForm.valid) {
       const formData = new FormData();
-      formData.append('manuscript', this.uploadForm.get('uploadedFile')?.value);
+      formData.append('manuscript', this.selectedFile);
       const manuscript = {
-        title: '',
-        author: '',
-        yearOfPublication: 1,
-        description: '',
-        fileName: '',
+        title: this.uploadForm.get('titleOfManuscript')?.value,
+        author: this.uploadForm.get('author')?.value,
+        yearOfPublication: this.uploadForm.get('yearOfPublication')?.value,
+        description: this.uploadForm.get('description')?.value,
       };
       formData.append('manuscriptDetails', JSON.stringify(manuscript));
-      this.manuscriptService
-        .addManuscript(formData)
-        .subscribe((next) => console.log(next));
+
+      console.log(formData);
+      this.manuscriptService.addManuscript(formData).subscribe((next) => {
+        // endpointul de addManuscript trebuie sa imi returneze manuscriptul inapoi,
+        // sau at least id-ul lui, sa pot face redirect
+        this.manuscriptService
+          .getManuscript(next.manuscriptId)
+          .subscribe((manuscript) => {
+            this.router.navigateByUrl(`/read/${manuscript.manuscriptId}`);
+          });
+      });
     }
   }
 }
