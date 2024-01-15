@@ -27,8 +27,6 @@ public class Manuscript {
     @Column(unique=true)
     private String filename;
 
-    //data cand a fost adaugat
-
     @OneToOne
     private ManuscriptMetadata manuscriptMetadata;
 

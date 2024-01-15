@@ -31,7 +31,7 @@ public class ManuscriptService {
     private final UserRepository userRepository;
     private final RestTemplate restTemplate;
     private final ManuscriptMetadataRepository manuscriptMetadataRepository;
-    private File databaseDirectory;
+    private final File databaseDirectory;
 
     @Autowired
     public ManuscriptService(ManuscriptRepository manuscriptRepository,

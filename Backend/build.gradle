@@ -45,6 +45,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '3.2.0'
 }
 
 //tasks.named('test') {
