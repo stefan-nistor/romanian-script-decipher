@@ -18,6 +18,12 @@ transkribusAPI = TranskribusAPI()
 transkribus_base_url = transkribusAPI.base_url
 
 
+# Health-checking
+@prefix_router.get("/api/v1/health", status_code=200)
+def check_health():
+    return {"message": "Server is healthy"}
+
+
 @prefix_router.get("/third-party/login", status_code=200)
 def login_to_transkribus():
     response = transkribusAPI.login()
