@@ -72,4 +72,13 @@ export class ManuscriptService {
     window.URL.revokeObjectURL(url);
     document.body.removeChild(link);
   }
+
+  getTranslation(docId: string): Observable<string> {
+    const x = this.path + `/manuscript/decipher-translation/${docId}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.get<string>(x);
+  }
 }

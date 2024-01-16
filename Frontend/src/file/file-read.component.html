@@ -27,8 +27,7 @@
         <div class="col-md-6">
           <div>
             <strong>Translation:</strong>
-            <!-- Aici trebuie manuscript.translation == 'ce trimite backendu daca nu avem inca translation'-->
-            <div *ngIf="manuscript?.description == 'DemoText'; else OcrText">
+            <div *ngIf="translation == ''; else OcrText">
               <h3>The document is still processing, please wait!</h3>
               <p>
                 <b>Here is some lorem ipsum while you are waiting -> </b>
@@ -50,8 +49,7 @@
             </div>
             <ng-template #OcrText>
               <p>
-                <!-- Aici trebuie manuscript.translation -->
-                {{ manuscript?.description }}
+                {{ translation }}
               </p>
             </ng-template>
           </div>
