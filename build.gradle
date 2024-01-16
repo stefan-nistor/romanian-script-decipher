@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.1.5'
     implementation group: 'org.modelmapper.extensions', name: 'modelmapper-spring', version: '3.2.0'
+    implementation group: 'org.springframework', name: 'spring-webflux', version: '6.1.3'
 
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

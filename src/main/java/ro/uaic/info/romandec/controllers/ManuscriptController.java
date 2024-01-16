@@ -25,14 +25,14 @@ public class ManuscriptController {
     }
 
     @PostMapping("/decipher")
-    public ResponseEntity<?> decipherManuscript(@RequestParam("manuscript") MultipartFile manuscript,
+    public ResponseEntity<Object> decipherManuscript(@RequestParam("manuscript") MultipartFile manuscript,
                                                 @RequestParam("manuscriptDetails") String decipherManuscriptJSON) {
 
-        //replace this with method for extracting user id from jwt;
+        // replace this with method for extracting user id from jwt
         UUID userId = UUID.fromString("b6f22768-e6d6-43e3-af3f-ee52891d69dc");
 
         ManuscriptPreviewResponseDto response = manuscriptService.decipherTranscript(manuscript, decipherManuscriptJSON, userId);
-
+        
         if (response == null) {
             return new ResponseEntity<>("Failed at deciphering.", HttpStatus.INTERNAL_SERVER_ERROR);
         }

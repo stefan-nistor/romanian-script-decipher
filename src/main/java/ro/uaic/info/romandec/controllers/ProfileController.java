@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.uaic.info.romandec.exceptions.InvalidDataException;
-import ro.uaic.info.romandec.exceptions.NoAvailableDataForGivenInputException;
 import ro.uaic.info.romandec.models.dtos.ManuscriptDetailedResponseDto;
 import ro.uaic.info.romandec.models.dtos.ManuscriptPreviewResponseDto;
 import ro.uaic.info.romandec.services.ManuscriptService;
@@ -24,15 +22,14 @@ public class ProfileController {
     private final ManuscriptService manuscriptService;
 
     private static final UUID USER_ID = UUID.fromString("b6f22768-e6d6-43e3-af3f-ee52891d69dc");
+
     @Autowired
     public ProfileController(ManuscriptService manuscriptService) {
         this.manuscriptService = manuscriptService;
     }
 
     @GetMapping("/my-manuscripts/all")
-    public ResponseEntity<?> getAllUsersManuscripts() throws NoAvailableDataForGivenInputException {
-
-        //replace this with method for extracting user id from jwt;
+    public ResponseEntity<Object> getAllUsersManuscripts() {
         List<ManuscriptPreviewResponseDto> allUsersManuscripts = manuscriptService.getAllUsersManuscripts(USER_ID);
 
         if (allUsersManuscripts.isEmpty()) {
@@ -43,25 +40,22 @@ public class ProfileController {
     }
 
     @GetMapping("/my-manuscripts/specific/{manuscriptId}")
-    public ResponseEntity<?> getSpecificManuscript(@PathVariable UUID manuscriptId)
-            throws NoAvailableDataForGivenInputException, InvalidDataException {
+    public ResponseEntity<Object> getSpecificManuscript(@PathVariable UUID manuscriptId) {
         ManuscriptDetailedResponseDto manuscript = manuscriptService.getSpecificManuscript(manuscriptId, USER_ID);
 
         return ResponseEntity.status(HttpStatus.OK).body(manuscript);
     }
 
     @DeleteMapping("/my-manuscripts/delete/{manuscriptId}")
-    public ResponseEntity<?> deleteManuscript(@PathVariable UUID manuscriptId)
-            throws NoAvailableDataForGivenInputException, InvalidDataException {
+    public ResponseEntity<Object> deleteManuscript(@PathVariable UUID manuscriptId) {
         manuscriptService.deleteManuscript(manuscriptId, USER_ID);
 
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
     @GetMapping("/my-manuscripts/download-original/{manuscriptId}")
-    public ResponseEntity<?> downloadSpecificManuscript(@PathVariable UUID manuscriptId)
-            throws NoAvailableDataForGivenInputException, InvalidDataException, IOException {
-        FileSystemResource manuscript =  manuscriptService.downloadOriginalManuscript(manuscriptId, USER_ID);
+    public ResponseEntity<Object> downloadSpecificManuscript(@PathVariable UUID manuscriptId) throws IOException {
+        FileSystemResource manuscript = manuscriptService.downloadOriginalManuscript(manuscriptId, USER_ID);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
