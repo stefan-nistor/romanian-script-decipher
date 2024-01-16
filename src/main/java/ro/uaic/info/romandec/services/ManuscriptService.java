@@ -147,7 +147,7 @@ public class ManuscriptService {
 
             // Send manuscript to AI module and get deciphering job id
             var transmoduleManuscriptData = decipherService.uploadFile(manuscriptFile);
-            TimeUnit.SECONDS.sleep(1);
+//            TimeUnit.SECONDS.sleep(2);
 
             var decipherJobId = decipherService.sendToDecipherDocument(transmoduleManuscriptData);
 

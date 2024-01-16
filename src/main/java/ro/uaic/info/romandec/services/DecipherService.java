@@ -2,6 +2,7 @@ package ro.uaic.info.romandec.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import ro.uaic.info.romandec.repository.ThirdPartyManuscriptRepository;
 
 import java.net.URI;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -92,9 +94,21 @@ public class DecipherService {
         return response;
     }
 
+    @SneakyThrows
     public Long sendToDecipherDocument(@NonNull ThirdPartyManuscriptDto manuscript) {
         if(!login()){
             throw new HttpClientException(LOGIN_ERROR);
+        }
+
+        String upload_status = "RUNNING";
+        while(!upload_status.equals("\"FINISHED\"")) {
+            upload_status =  webClient.get()
+                    .uri(URI.create(String.format("%s/job_status/%s", baseUriApi, manuscript.getJobId())))
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+            LOGGER.info("Document creation status: {}", upload_status);
+            TimeUnit.MILLISECONDS.sleep(333);
         }
 
         LOGGER.info("Sending manuscript to decipher on 3rd party");

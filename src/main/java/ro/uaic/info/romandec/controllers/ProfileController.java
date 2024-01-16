@@ -21,7 +21,7 @@ public class ProfileController {
 
     private final ManuscriptService manuscriptService;
 
-    private static final UUID USER_ID = UUID.fromString("b6f22768-e6d6-43e3-af3f-ee52891d69dc");
+    private static final UUID USER_ID = UUID.fromString("dff34814-4b40-410c-b8c3-c7652f503fbd");
 
     @Autowired
     public ProfileController(ManuscriptService manuscriptService) {
