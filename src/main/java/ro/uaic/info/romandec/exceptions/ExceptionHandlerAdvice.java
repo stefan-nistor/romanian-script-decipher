@@ -32,7 +32,7 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({NoAvailableDataForGivenInputException.class})
+    @ExceptionHandler({NoAvailableDataForGivenInputException.class, ManuscriptNotFoundException.class})
     public ResponseEntity<Object> noAvailableDataForInput(RuntimeException e){
         Map<String, Object> result = new HashMap<>();
         result.put(TIMESTAMP, LocalDateTime.now());
