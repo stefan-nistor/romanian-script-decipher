@@ -20,4 +20,6 @@ public class ManuscriptDetailedResponseDto {
 
     private Integer yearOfPublication;
 
+    private Long docId;
+
 }

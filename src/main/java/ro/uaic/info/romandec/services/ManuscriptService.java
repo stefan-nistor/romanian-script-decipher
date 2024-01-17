@@ -76,6 +76,7 @@ public class ManuscriptService {
                 .author(manuscript.getManuscriptMetadata().getAuthor())
                 .yearOfPublication(manuscript.getManuscriptMetadata().getYearOfPublication())
                 .description(manuscript.getManuscriptMetadata().getDescription())
+                .docId(manuscript.getDocId())
                 .build();
     }
 
@@ -168,6 +169,7 @@ public class ManuscriptService {
                             manuscriptFile.getOriginalFilename())))
                     .pathToDecipheredText("not yet")
                     .manuscriptMetadata(manuscriptMetadata)
+                    .docId(transmoduleManuscriptData.getDocId())
                     .build());
 
             //return the necessary info

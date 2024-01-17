@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Manuscript } from 'src/manuscript/manuscript.model';
 import { ManuscriptService } from 'src/manuscript/manuscript.service';
 import { Router } from '@angular/router';
-import { interval, switchMap } from 'rxjs';
+import { interval, switchMap, takeWhile } from 'rxjs';
 
 @Component({
   selector: 'file-read',
@@ -25,11 +25,9 @@ export class FileReadComponent implements OnInit {
       .subscribe(manuscript => 
         {
           this.manuscript = manuscript;
-          const intervalObservable = interval(1000);
-
-          intervalObservable.pipe(
-            switchMap(() => this.manuscriptService.getTranslation(manuscript.docId))
-          ).subscribe(translation => this.translation = translation);
+          this.manuscriptService.getTranslation(manuscript.docId).subscribe(translation => {
+            this.translation = translation;
+          })
         });
   }
 

@@ -139,7 +139,6 @@ public class DecipherService {
         if(!login()){
             throw new HttpClientException(LOGIN_ERROR);
         }
-        LOGGER.info("Getting deciphering status for docId {}", docId);
 
         var dbManuscript = thirdPartyManuscriptRepository.findThirdPartyManuscriptByDocId(docId)
                 .orElseThrow(() -> new ManuscriptNotFoundException(NOT_FOUND_ERROR));
@@ -155,6 +154,7 @@ public class DecipherService {
         return response;
     }
 
+    @SneakyThrows
     public String getTranslatedText(Long docId) {
         var manuscript = thirdPartyManuscriptRepository.findThirdPartyManuscriptByDocId(docId)
                 .orElseThrow(() -> new ManuscriptNotFoundException(NOT_FOUND_ERROR));
@@ -163,6 +163,14 @@ public class DecipherService {
             throw new HttpClientException(LOGIN_ERROR);
         }
 
+        String translated_status = "";
+        while(!translated_status.equals("\"FINISHED\"")) {
+            translated_status = getDecipheringStatus(docId);
+            LOGGER.info("Document translation status: {}", translated_status);
+            TimeUnit.MILLISECONDS.sleep(333);
+        }
+
+        LOGGER.info("Getting translated text for docId {}", docId);
         return webClient.get()
                 .uri(URI.create(String.format("%s/ocr/get_translated_xml_text?filename=%s&document_id=%s",
                                 baseUriApi, manuscript.getFilename(), manuscript.getDocId().toString())))

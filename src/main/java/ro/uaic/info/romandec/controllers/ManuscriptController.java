@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/api/manuscript")
 public class ManuscriptController {
 
-    private static final String STATUS_FINISHED = "FINISHED";
+    private static final String STATUS_FINISHED = "\"FINISHED\"";
     private final ManuscriptService manuscriptService;
     private final DecipherService decipherService;
 
@@ -44,10 +44,6 @@ public class ManuscriptController {
 
     @GetMapping("/decipher-translation/{docId}")
     public ResponseEntity<Object> decipherTranslation(@PathVariable Long docId) {
-        var status = decipherService.getDecipheringStatus(docId);
-        if(!status.equals(STATUS_FINISHED)){
-            return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
-        }
         var text = decipherService.getTranslatedText(docId);
         return new ResponseEntity<>(text, HttpStatus.OK);
     }
