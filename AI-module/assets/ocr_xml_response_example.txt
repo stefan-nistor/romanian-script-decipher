@@ -1,0 +1,704 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PcGts xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15 http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15/pagecontent.xsd">
+    <Metadata>
+        <Creator>prov=READ-COOP:name=PyLaia@TranskribusPlatform:version=2.7.0:model_id=52851:lm=none:date=09_01_2024_12:18</Creator>
+        <Created>2024-01-08T11:56:28.639+01:00</Created>
+        <LastChange>2024-01-09T12:18:38.512Z</LastChange>
+        <TranskribusMetadata docId="1737884" pageId="63149289" pageNr="1" tsid="144546154" status="NEW" userId="208474" imgUrl="https://files.transkribus.eu/Get?id=ORVSODIXCVRCLIAYLZARMHWR&amp;fileType=view" xmlUrl="https://files.transkribus.eu/Get?id=MOTHUHEYFFRNNUCBZCZDEMDS" imageId="51056522"/>
+    </Metadata>
+    <Page imageFilename="63149289.png" imageWidth="800" imageHeight="1400">
+        <ReadingOrder>
+            <OrderedGroup id="ro_1704802718512" caption="Regions reading order">
+                <RegionRefIndexed index="0" regionRef="tr_1"/>
+            </OrderedGroup>
+        </ReadingOrder>
+        <TextRegion orientation="0.0" id="tr_1" custom="readingOrder {index:0;}">
+            <Coords points="52,88 52,1277 757,1277 757,88"/>
+            <TextLine id="tr_1_tl_1" custom="readingOrder {index:0;}">
+                <Coords points="173,142 193,147 207,143 221,129 225,133 236,129 244,135 258,127 272,129 273,49 251,54 220,76 212,75 188,55 174,59"/>
+                <Baseline points="178,118 209,121 241,120 273,118"/>
+                <Word id="tr_1_tl_1_w1" custom="readingOrder {index:0;}">
+                    <Coords points="175,80 175,140 248,140 248,80"/>
+                    <TextEquiv>
+                        <Unicode>276</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>276</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_2" custom="readingOrder {index:1;}">
+                <Coords points="257,371 346,349 389,362 414,353 446,367 469,356 542,359 542,303 510,281 336,314 318,299 281,305 257,296"/>
+                <Baseline points="262,344 287,342 313,344 338,344 364,344 390,344 415,345 441,344 467,344 492,342 518,341 544,341"/>
+                <Word id="tr_1_tl_2_w1" custom="readingOrder {index:0;}">
+                    <Coords points="258,302 258,362 325,362 325,302"/>
+                    <TextEquiv>
+                        <Unicode>М.</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_2_w2" custom="readingOrder {index:1;}">
+                    <Coords points="341,304 341,364 519,364 519,304"/>
+                    <TextEquiv>
+                        <Unicode>ЅАЕ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>М. ЅАЕ</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_3" custom="readingOrder {index:2;}">
+                <Coords points="55,459 744,457 744,423 674,391 390,423 55,387"/>
+                <Baseline points="60,449 94,449 128,449 162,450 197,450 231,451 265,450 300,450 334,450 368,450 403,450 437,450 471,451 505,452 540,450 574,452 608,450 643,450 677,449 711,449 746,449"/>
+                <Word id="tr_1_tl_3_w1" custom="readingOrder {index:0;}">
+                    <Coords points="54,409 54,469 136,469 136,409"/>
+                    <TextEquiv>
+                        <Unicode>РRЕА</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_3_w2" custom="readingOrder {index:1;}">
+                    <Coords points="165,410 165,470 424,470 424,410"/>
+                    <TextEquiv>
+                        <Unicode>ÎNАТАТULUІ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_3_w3" custom="readingOrder {index:2;}">
+                    <Coords points="443,411 443,471 582,471 582,411"/>
+                    <TextEquiv>
+                        <Unicode>NОЅТRU</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_3_w4" custom="readingOrder {index:3;}">
+                    <Coords points="611,409 611,469 725,469 725,409"/>
+                    <TextEquiv>
+                        <Unicode>DОМNU</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>РRЕА ÎNАТАТULUІ NОЅТRU DОМNU</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_4" custom="readingOrder {index:3;}">
+                <Coords points="60,568 282,565 313,587 544,559 744,571 744,519 693,506 466,523 339,500 270,526 60,505"/>
+                <Baseline points="65,558 99,557 133,558 167,560 201,561 235,560 269,560 303,560 337,560 371,561 405,562 439,561 473,562 507,561 541,560 575,560 609,561 643,560 677,557 711,557 745,560"/>
+                <Word id="tr_1_tl_4_w1" custom="readingOrder {index:0;}">
+                    <Coords points="56,521 56,581 719,581 719,521"/>
+                    <TextEquiv>
+                        <Unicode>83RІЕ88ФА</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>83RІЕ88ФА</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_5" custom="readingOrder {index:4;}">
+                <Coords points="167,706 230,718 316,698 360,720 475,692 585,718 642,703 636,658 588,669 514,645 443,667 307,641 260,666 167,647"/>
+                <Baseline points="172,694 198,693 224,694 250,694 276,694 303,695 329,694 355,694 381,694 408,694 434,693 460,693 486,693 512,694 539,694 565,693 591,693 617,694 644,694"/>
+                <Word id="tr_1_tl_5_w1" custom="readingOrder {index:0;}">
+                    <Coords points="166,653 166,713 255,713 255,653"/>
+                    <TextEquiv>
+                        <Unicode>Prеа</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_5_w2" custom="readingOrder {index:1;}">
+                    <Coords points="281,654 281,714 447,714 447,654"/>
+                    <TextEquiv>
+                        <Unicode>Іnаlꚏаtе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_5_w3" custom="readingOrder {index:2;}">
+                    <Coords points="476,653 476,713 632,713 632,653"/>
+                    <TextEquiv>
+                        <Unicode>Dоmnе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>Prеа Іnаlꚏаtе Dоmnе</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_6" custom="readingOrder {index:5;}">
+                <Coords points="107,784 179,806 363,778 466,802 535,777 746,785 746,751 581,756 523,721 273,758 107,723"/>
+                <Baseline points="112,776 143,776 175,776 207,777 239,777 271,776 302,776 334,774 366,776 398,777 430,776 461,776 493,777 525,776 557,777 589,777 620,777 652,777 684,778 716,777 748,776"/>
+                <Word id="tr_1_tl_6_w1" custom="readingOrder {index:0;}">
+                    <Coords points="105,736 105,796 183,796 183,736"/>
+                    <TextEquiv>
+                        <Unicode>Тоаtъ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_6_w2" custom="readingOrder {index:1;}">
+                    <Coords points="207,736 207,796 278,796 278,736"/>
+                    <TextEquiv>
+                        <Unicode>Цара</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_6_w3" custom="readingOrder {index:2;}">
+                    <Coords points="299,734 299,794 341,794 341,734"/>
+                    <TextEquiv>
+                        <Unicode>ѕе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_6_w4" custom="readingOrder {index:3;}">
+                    <Coords points="359,736 359,796 463,796 463,736"/>
+                    <TextEquiv>
+                        <Unicode>бꙋкꙋръ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_6_w5" custom="readingOrder {index:4;}">
+                    <Coords points="487,736 487,796 529,796 529,736"/>
+                    <TextEquiv>
+                        <Unicode>ԁе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_6_w6" custom="readingOrder {index:5;}">
+                    <Coords points="544,737 544,797 687,797 687,737"/>
+                    <TextEquiv>
+                        <Unicode>фрꙋmоаѕа</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_6_w7" custom="readingOrder {index:6;}">
+                    <Coords points="705,736 705,796 740,796 740,736"/>
+                    <TextEquiv>
+                        <Unicode>ші</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>Тоаtъ Цара ѕе бꙋкꙋръ ԁе фрꙋmоаѕа ші</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_7" custom="readingOrder {index:6;}">
+                <Coords points="51,831 265,844 344,822 529,852 740,824 728,802 661,813 615,790 51,796"/>
+                <Baseline points="56,824 90,824 124,822 158,822 193,822 227,822 261,820 296,820 330,820 364,822 399,821 433,821 467,821 501,821 536,822 570,822 604,822 639,822 673,822 707,822 742,821"/>
+                <Word id="tr_1_tl_7_w1" custom="readingOrder {index:0;}">
+                    <Coords points="48,782 48,842 168,842 168,782"/>
+                    <TextEquiv>
+                        <Unicode>nорочіtа</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_7_w2" custom="readingOrder {index:1;}">
+                    <Coords points="186,780 186,840 323,840 323,780"/>
+                    <TextEquiv>
+                        <Unicode>аллеџере</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_7_w3" custom="readingOrder {index:2;}">
+                    <Coords points="343,781 343,841 357,841 357,781"/>
+                    <TextEquiv>
+                        <Unicode>а</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_7_w4" custom="readingOrder {index:3;}">
+                    <Coords points="377,781 377,841 645,841 645,781"/>
+                    <TextEquiv>
+                        <Unicode>репреѕеntаnꚏілор</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_7_w5" custom="readingOrder {index:4;}">
+                    <Coords points="672,782 672,842 742,842 742,782"/>
+                    <TextEquiv>
+                        <Unicode>Nа-</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>nорочіtа аллеџере а репреѕеntаnꚏілор Nа-</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_8" custom="readingOrder {index:7;}">
+                <Coords points="49,892 740,884 729,829 688,850 49,843"/>
+                <Baseline points="54,874 88,872 122,872 157,872 191,870 226,870 260,869 294,869 329,869 363,870 398,870 432,870 466,870 501,870 535,870 570,872 604,872 638,872 673,872 707,872 742,870"/>
+                <Word id="tr_1_tl_8_w1" custom="readingOrder {index:0;}">
+                    <Coords points="47,832 47,892 112,892 112,832"/>
+                    <TextEquiv>
+                        <Unicode>ꚏіеꙇ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_8_w2" custom="readingOrder {index:1;}">
+                    <Coords points="121,832 121,892 155,892 155,832"/>
+                    <TextEquiv>
+                        <Unicode>ԁе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_8_w3" custom="readingOrder {index:2;}">
+                    <Coords points="175,830 175,890 189,890 189,830"/>
+                    <TextEquiv>
+                        <Unicode>а</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_8_w4" custom="readingOrder {index:3;}">
+                    <Coords points="209,830 209,890 237,890 237,830"/>
+                    <TextEquiv>
+                        <Unicode>ѕе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_8_w5" custom="readingOrder {index:4;}">
+                    <Coords points="255,829 255,889 291,889 291,829"/>
+                    <TextEquiv>
+                        <Unicode>ԁа</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_8_w6" custom="readingOrder {index:5;}">
+                    <Coords points="309,829 309,889 408,889 408,829"/>
+                    <TextEquiv>
+                        <Unicode>кърmа</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_8_w7" custom="readingOrder {index:6;}">
+                    <Coords points="428,830 428,890 610,890 610,830"/>
+                    <TextEquiv>
+                        <Unicode>Гꙋверnꙋлꙋꙇ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_8_w8" custom="readingOrder {index:7;}">
+                    <Coords points="619,832 619,892 647,892 647,832"/>
+                    <TextEquiv>
+                        <Unicode>în</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_8_w9" custom="readingOrder {index:8;}">
+                    <Coords points="667,832 667,892 738,892 738,832"/>
+                    <TextEquiv>
+                        <Unicode>mъꙇ꙼-</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>ꚏіеꙇ꙼ ԁе а ѕе ԁа кърmа Гꙋверnꙋлꙋꙇ꙼ în mъꙇ꙼-</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_9" custom="readingOrder {index:8;}">
+                <Coords points="49,934 666,946 739,922 732,883 699,902 48,892"/>
+                <Baseline points="54,922 88,921 122,921 157,921 191,920 225,920 260,918 294,919 328,920 363,920 397,920 431,920 466,920 500,920 534,921 569,921 603,921 637,922 672,921 706,921 741,918"/>
+                <Word id="tr_1_tl_9_w1" custom="readingOrder {index:0;}">
+                    <Coords points="46,881 46,941 115,941 115,881"/>
+                    <TextEquiv>
+                        <Unicode>nеле</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_9_w2" custom="readingOrder {index:1;}">
+                    <Coords points="132,880 132,940 208,940 208,880"/>
+                    <TextEquiv>
+                        <Unicode>ꙋnꙋꙇ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_9_w3" custom="readingOrder {index:2;}">
+                    <Coords points="217,878 217,938 314,938 314,878"/>
+                    <TextEquiv>
+                        <Unicode>бърбаt</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_9_w4" custom="readingOrder {index:3;}">
+                    <Coords points="331,880 331,940 364,940 364,880"/>
+                    <TextEquiv>
+                        <Unicode>кꙋ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_9_w5" custom="readingOrder {index:4;}">
+                    <Coords points="381,880 381,940 530,940 530,880"/>
+                    <TextEquiv>
+                        <Unicode>вреԁnічіе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_9_w6" custom="readingOrder {index:5;}">
+                    <Coords points="549,881 549,941 586,941 586,881"/>
+                    <TextEquiv>
+                        <Unicode>ші</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_9_w7" custom="readingOrder {index:6;}">
+                    <Coords points="600,881 600,941 633,941 633,881"/>
+                    <TextEquiv>
+                        <Unicode>кꙋ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_9_w8" custom="readingOrder {index:7;}">
+                    <Coords points="650,881 650,941 737,941 737,881"/>
+                    <TextEquiv>
+                        <Unicode>лꙋmі-</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>nеле ꙋnꙋꙇ꙼ бърбаt кꙋ вреԁnічіе ші кꙋ лꙋmі-</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_10" custom="readingOrder {index:9;}">
+                <Coords points="48,989 754,981 754,945 731,942 48,940"/>
+                <Baseline points="53,972 88,972 123,972 158,972 193,970 228,970 263,970 299,969 334,969 369,970 404,970 439,969 474,970 509,969 545,970 580,971 615,970 650,972 685,972 720,972 756,972"/>
+                <Word id="tr_1_tl_10_w1" custom="readingOrder {index:0;}">
+                    <Coords points="46,932 46,992 111,992 111,932"/>
+                    <TextEquiv>
+                        <Unicode>nаtе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_10_w2" custom="readingOrder {index:1;}">
+                    <Coords points="130,930 130,990 291,990 291,930"/>
+                    <TextEquiv>
+                        <Unicode>кꙋnоꚗіnꚏе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_10_w3" custom="readingOrder {index:2;}">
+                    <Coords points="310,929 310,989 351,989 351,929"/>
+                    <TextEquiv>
+                        <Unicode>ка</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_10_w4" custom="readingOrder {index:3;}">
+                    <Coords points="370,930 370,990 427,990 427,930"/>
+                    <TextEquiv>
+                        <Unicode>М.</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_10_w5" custom="readingOrder {index:4;}">
+                    <Coords points="436,929 436,989 520,989 520,929"/>
+                    <TextEquiv>
+                        <Unicode>Т.—</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_10_w6" custom="readingOrder {index:5;}">
+                    <Coords points="540,930 540,990 632,990 632,930"/>
+                    <TextEquiv>
+                        <Unicode>Тоꚏꙇ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_10_w7" custom="readingOrder {index:6;}">
+                    <Coords points="643,932 643,992 687,992 687,932"/>
+                    <TextEquiv>
+                        <Unicode>Тӗ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_10_w8" custom="readingOrder {index:7;}">
+                    <Coords points="703,932 703,992 747,992 747,932"/>
+                    <TextEquiv>
+                        <Unicode>аꙋ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>nаtе кꙋnоꚗіnꚏе ка М. Т.— Тоꚏꙇ꙼ Тӗ аꙋ꙼</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_11" custom="readingOrder {index:10;}">
+                <Coords points="48,1040 750,1027 750,985 691,980 652,1005 469,982 48,1000"/>
+                <Baseline points="53,1020 89,1020 126,1020 163,1020 200,1018 236,1018 273,1018 310,1017 347,1017 384,1018 420,1018 457,1020 494,1018 531,1020 568,1021 604,1020 641,1020 678,1020 715,1021 752,1018"/>
+                <Word id="tr_1_tl_11_w1" custom="readingOrder {index:0;}">
+                    <Coords points="45,980 45,1040 157,1040 157,980"/>
+                    <TextEquiv>
+                        <Unicode>ѕалꙋtаt</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_11_w2" custom="readingOrder {index:1;}">
+                    <Coords points="173,978 173,1038 246,1038 246,978"/>
+                    <TextEquiv>
+                        <Unicode>ԁꙋпъ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_11_w3" custom="readingOrder {index:2;}">
+                    <Coords points="267,977 267,1037 355,1037 355,977"/>
+                    <TextEquiv>
+                        <Unicode>mареа</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_11_w4" custom="readingOrder {index:3;}">
+                    <Coords points="373,979 373,1039 509,1039 509,979"/>
+                    <TextEquiv>
+                        <Unicode>кꙋвііnꚏъ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_11_w5" custom="readingOrder {index:4;}">
+                    <Coords points="527,980 527,1040 561,1040 561,980"/>
+                    <TextEquiv>
+                        <Unicode>кꙋ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_11_w6" custom="readingOrder {index:5;}">
+                    <Coords points="577,980 577,1040 644,1040 644,980"/>
+                    <TextEquiv>
+                        <Unicode>каре</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_11_w7" custom="readingOrder {index:6;}">
+                    <Coords points="663,980 663,1040 702,1040 702,980"/>
+                    <TextEquiv>
+                        <Unicode>Тӗ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_11_w8" custom="readingOrder {index:7;}">
+                    <Coords points="718,979 718,1039 746,1039 746,979"/>
+                    <TextEquiv>
+                        <Unicode>аꙇ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>ѕалꙋtаt ԁꙋпъ mареа кꙋвііnꚏъ кꙋ каре Тӗ аꙇ꙼</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_12" custom="readingOrder {index:11;}">
+                <Coords points="47,1073 742,1085 732,1037 47,1040"/>
+                <Baseline points="52,1069 86,1068 121,1068 155,1068 190,1068 225,1068 259,1068 294,1068 328,1066 363,1066 398,1066 432,1067 467,1068 501,1066 536,1068 571,1068 605,1066 640,1068 674,1068 709,1068 744,1066"/>
+                <Word id="tr_1_tl_12_w1" custom="readingOrder {index:0;}">
+                    <Coords points="44,1028 44,1088 183,1088 183,1028"/>
+                    <TextEquiv>
+                        <Unicode>ревеѕtіt,</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_12_w2" custom="readingOrder {index:1;}">
+                    <Coords points="199,1028 199,1088 241,1088 241,1028"/>
+                    <TextEquiv>
+                        <Unicode>ші</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_12_w3" custom="readingOrder {index:2;}">
+                    <Coords points="257,1028 257,1088 282,1088 282,1028"/>
+                    <TextEquiv>
+                        <Unicode>în</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_12_w4" custom="readingOrder {index:3;}">
+                    <Coords points="305,1026 305,1086 513,1086 513,1026"/>
+                    <TextEquiv>
+                        <Unicode>акклаmаꚏііле</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_12_w5" custom="readingOrder {index:4;}">
+                    <Coords points="531,1027 531,1087 642,1087 642,1027"/>
+                    <TextEquiv>
+                        <Unicode>бꙋкріеꙇ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_12_w6" custom="readingOrder {index:5;}">
+                    <Coords points="650,1028 650,1088 738,1088 738,1028"/>
+                    <TextEquiv>
+                        <Unicode>обꚗе-</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>ревеѕtіt, ші în акклаmаꚏііле бꙋкріеꙇ꙼ обꚗе-</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_13" custom="readingOrder {index:12;}">
+                <Coords points="52,1136 608,1124 679,1147 754,1124 754,1083 155,1099 52,1074"/>
+                <Baseline points="57,1117 93,1117 130,1117 167,1116 204,1115 240,1116 277,1114 314,1114 351,1113 388,1113 424,1113 461,1114 498,1113 535,1114 572,1114 608,1114 645,1114 682,1116 719,1116 756,1113"/>
+                <Word id="tr_1_tl_13_w1" custom="readingOrder {index:0;}">
+                    <Coords points="50,1077 50,1137 90,1137 90,1077"/>
+                    <TextEquiv>
+                        <Unicode>ꚗꙇ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_13_w2" custom="readingOrder {index:1;}">
+                    <Coords points="99,1077 99,1137 131,1137 131,1077"/>
+                    <TextEquiv>
+                        <Unicode>ѕе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_13_w3" custom="readingOrder {index:2;}">
+                    <Coords points="148,1075 148,1135 240,1135 240,1075"/>
+                    <TextEquiv>
+                        <Unicode>перԁе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_13_w4" custom="readingOrder {index:3;}">
+                    <Coords points="257,1074 257,1134 294,1134 294,1074"/>
+                    <TextEquiv>
+                        <Unicode>ші</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_13_w5" custom="readingOrder {index:4;}">
+                    <Coords points="308,1073 308,1133 354,1133 354,1073"/>
+                    <TextEquiv>
+                        <Unicode>ера</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_13_w6" custom="readingOrder {index:5;}">
+                    <Coords points="374,1073 374,1133 409,1133 409,1073"/>
+                    <TextEquiv>
+                        <Unicode>ԁе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_13_w7" custom="readingOrder {index:6;}">
+                    <Coords points="434,1073 434,1133 521,1133 521,1073"/>
+                    <TextEquiv>
+                        <Unicode>пріѕоѕ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_13_w8" custom="readingOrder {index:7;}">
+                    <Coords points="537,1074 537,1134 635,1134 635,1074"/>
+                    <TextEquiv>
+                        <Unicode>глаѕꙋл</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_13_w9" custom="readingOrder {index:8;}">
+                    <Coords points="660,1076 660,1136 752,1136 752,1076"/>
+                    <TextEquiv>
+                        <Unicode>ꙋnеꙇ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>ꚗꙇ꙼ ѕе перԁе ші ера ԁе пріѕоѕ глаѕꙋл ꙋnеꙇ꙼</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_14" custom="readingOrder {index:13;}">
+                <Coords points="48,1181 752,1183 743,1129 48,1147"/>
+                <Baseline points="53,1164 88,1164 123,1164 158,1165 193,1164 228,1163 263,1162 298,1162 333,1162 368,1162 403,1162 438,1162 473,1164 508,1163 543,1163 578,1164 613,1164 648,1163 683,1164 718,1164 754,1162"/>
+                <Word id="tr_1_tl_14_w1" custom="readingOrder {index:0;}">
+                    <Coords points="46,1124 46,1184 127,1184 127,1124"/>
+                    <TextEquiv>
+                        <Unicode>ѕлабе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_14_w2" custom="readingOrder {index:1;}">
+                    <Coords points="144,1124 144,1184 182,1184 182,1124"/>
+                    <TextEquiv>
+                        <Unicode>ші</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_14_w3" custom="readingOrder {index:2;}">
+                    <Coords points="197,1122 197,1182 297,1182 297,1122"/>
+                    <TextEquiv>
+                        <Unicode>tіmіԁе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_14_w4" custom="readingOrder {index:3;}">
+                    <Coords points="314,1122 314,1182 428,1182 428,1122"/>
+                    <TextEquiv>
+                        <Unicode>копілле</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_14_w5" custom="readingOrder {index:4;}">
+                    <Coords points="448,1123 448,1183 532,1183 532,1123"/>
+                    <TextEquiv>
+                        <Unicode>каре,</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_14_w6" custom="readingOrder {index:5;}">
+                    <Coords points="543,1123 543,1183 571,1183 571,1123"/>
+                    <TextEquiv>
+                        <Unicode>în</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_14_w7" custom="readingOrder {index:6;}">
+                    <Coords points="594,1123 594,1183 666,1183 666,1123"/>
+                    <TextEquiv>
+                        <Unicode>пачеа</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_14_w8" custom="readingOrder {index:7;}">
+                    <Coords points="680,1124 680,1184 750,1184 750,1124"/>
+                    <TextEquiv>
+                        <Unicode>ꙋnꙋꙇ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>ѕлабе ші tіmіԁе копілле каре, în пачеа ꙋnꙋꙇ꙼</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_15" custom="readingOrder {index:14;}">
+                <Coords points="51,1236 755,1222 755,1191 721,1180 51,1186"/>
+                <Baseline points="56,1212 91,1214 126,1215 161,1216 196,1214 231,1214 266,1214 301,1214 336,1213 371,1213 406,1214 441,1213 476,1214 511,1213 546,1214 581,1214 616,1213 651,1213 686,1213 721,1214 756,1212"/>
+                <Word id="tr_1_tl_15_w1" custom="readingOrder {index:0;}">
+                    <Coords points="48,1175 48,1235 211,1235 211,1175"/>
+                    <TextEquiv>
+                        <Unicode>Пеnѕіоnаt,</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_15_w2" custom="readingOrder {index:1;}">
+                    <Coords points="224,1174 224,1234 263,1234 263,1174"/>
+                    <TextEquiv>
+                        <Unicode>nꙋ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_15_w3" custom="readingOrder {index:2;}">
+                    <Coords points="278,1173 278,1233 402,1233 402,1173"/>
+                    <TextEquiv>
+                        <Unicode>кꙋnоаꚗе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_15_w4" custom="readingOrder {index:3;}">
+                    <Coords points="417,1173 417,1233 499,1233 499,1173"/>
+                    <TextEquiv>
+                        <Unicode>nіmік</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_15_w5" custom="readingOrder {index:4;}">
+                    <Coords points="519,1173 519,1233 561,1233 561,1173"/>
+                    <TextEquiv>
+                        <Unicode>ԁіn</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_15_w6" custom="readingOrder {index:5;}">
+                    <Coords points="581,1173 581,1233 652,1233 652,1173"/>
+                    <TextEquiv>
+                        <Unicode>ачеѕt</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_15_w7" custom="readingOrder {index:6;}">
+                    <Coords points="665,1173 665,1233 747,1233 747,1173"/>
+                    <TextEquiv>
+                        <Unicode>флꙋкѕ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>Пеnѕіоnаt, nꙋ кꙋnоаꚗе nіmік ԁіn ачеѕt флꙋкѕ</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextLine id="tr_1_tl_16" custom="readingOrder {index:15;}">
+                <Coords points="48,1277 220,1297 271,1271 400,1291 755,1276 755,1233 726,1227 48,1242"/>
+                <Baseline points="53,1260 88,1262 123,1263 158,1264 193,1264 229,1262 264,1262 299,1262 334,1261 369,1261 405,1262 440,1264 475,1264 510,1264 545,1264 581,1264 616,1264 651,1262 686,1264 721,1264 757,1265"/>
+                <Word id="tr_1_tl_16_w1" custom="readingOrder {index:0;}">
+                    <Coords points="46,1220 46,1280 81,1280 81,1220"/>
+                    <TextEquiv>
+                        <Unicode>ші</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_16_w2" custom="readingOrder {index:1;}">
+                    <Coords points="92,1223 92,1283 209,1283 209,1223"/>
+                    <TextEquiv>
+                        <Unicode>рефлꙋкѕ</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_16_w3" custom="readingOrder {index:2;}">
+                    <Coords points="226,1222 226,1282 256,1282 256,1222"/>
+                    <TextEquiv>
+                        <Unicode>ал</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_16_w4" custom="readingOrder {index:3;}">
+                    <Coords points="272,1221 272,1281 335,1281 335,1221"/>
+                    <TextEquiv>
+                        <Unicode>ꙋnеꙇ꙼</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_16_w5" custom="readingOrder {index:4;}">
+                    <Coords points="344,1221 344,1281 441,1281 441,1221"/>
+                    <TextEquiv>
+                        <Unicode>Мърꙇ꙼,</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_16_w6" custom="readingOrder {index:5;}">
+                    <Coords points="455,1224 455,1284 534,1284 534,1224"/>
+                    <TextEquiv>
+                        <Unicode>пеѕtе</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_16_w7" custom="readingOrder {index:6;}">
+                    <Coords points="554,1224 554,1284 619,1284 619,1224"/>
+                    <TextEquiv>
+                        <Unicode>каре</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_16_w8" custom="readingOrder {index:7;}">
+                    <Coords points="636,1222 636,1282 682,1282 682,1222"/>
+                    <TextEquiv>
+                        <Unicode>М.</Unicode>
+                    </TextEquiv>
+                </Word>
+                <Word id="tr_1_tl_16_w9" custom="readingOrder {index:8;}">
+                    <Coords points="693,1224 693,1284 750,1284 750,1224"/>
+                    <TextEquiv>
+                        <Unicode>Та,</Unicode>
+                    </TextEquiv>
+                </Word>
+                <TextEquiv>
+                    <Unicode>ші рефлꙋкѕ ал ꙋnеꙇ꙼ Мърꙇ꙼, пеѕtе каре М. Та,</Unicode>
+                </TextEquiv>
+            </TextLine>
+            <TextEquiv>
+                <Unicode></Unicode>
+            </TextEquiv>
+        </TextRegion>
+    </Page>
+</PcGts>

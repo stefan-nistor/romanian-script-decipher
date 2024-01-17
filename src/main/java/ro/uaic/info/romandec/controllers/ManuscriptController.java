@@ -3,12 +3,10 @@ package ro.uaic.info.romandec.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ro.uaic.info.romandec.models.dtos.ManuscriptPreviewResponseDto;
+import ro.uaic.info.romandec.services.DecipherService;
 import ro.uaic.info.romandec.services.ManuscriptService;
 
 import java.util.UUID;
@@ -17,26 +15,41 @@ import java.util.UUID;
 @RequestMapping("/api/manuscript")
 public class ManuscriptController {
 
+    private static final String STATUS_FINISHED = "\"FINISHED\"";
     private final ManuscriptService manuscriptService;
+    private final DecipherService decipherService;
 
     @Autowired
-    public ManuscriptController(ManuscriptService manuscriptService) {
+    public ManuscriptController(ManuscriptService manuscriptService, DecipherService decipherService) {
         this.manuscriptService = manuscriptService;
+        this.decipherService = decipherService;
     }
 
     @PostMapping("/decipher")
-    public ResponseEntity<?> decipherManuscript(@RequestParam("manuscript") MultipartFile manuscript,
+    public ResponseEntity<Object> decipherManuscript(@RequestParam("manuscript") MultipartFile manuscript,
                                                 @RequestParam("manuscriptDetails") String decipherManuscriptJSON) {
 
-        //replace this with method for extracting user id from jwt;
-        UUID userId = UUID.fromString("b6f22768-e6d6-43e3-af3f-ee52891d69dc");
+        // replace this with method for extracting user id from jwt
+        UUID userId = UUID.fromString("dff34814-4b40-410c-b8c3-c7652f503fbd");
 
         ManuscriptPreviewResponseDto response = manuscriptService.decipherTranscript(manuscript, decipherManuscriptJSON, userId);
-
+        
         if (response == null) {
             return new ResponseEntity<>("Failed at deciphering.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/decipher-translation/{docId}")
+    public ResponseEntity<Object> decipherTranslation(@PathVariable Long docId) {
+        var text = decipherService.getOcrText(docId);
+        return new ResponseEntity<>(text, HttpStatus.OK);
+    }
+
+    @GetMapping("/decipher-nlp/{docId}")
+    public ResponseEntity<Object> decipherNlp(@PathVariable Long docId) {
+        var text = decipherService.getNlpText(docId);
+        return new ResponseEntity<>(text, HttpStatus.OK);
     }
 }

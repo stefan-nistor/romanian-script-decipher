@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Manuscript } from 'src/manuscript/manuscript.model';
 import { ManuscriptService } from 'src/manuscript/manuscript.service';
 import { Router } from '@angular/router';
+import { interval, switchMap, takeWhile } from 'rxjs';
 
 @Component({
   selector: 'file-read',
@@ -10,6 +11,9 @@ import { Router } from '@angular/router';
 })
 export class FileReadComponent implements OnInit {
   manuscript!: Manuscript;
+  OCR: string = '';
+  NLP: string = '';
+  currentJob: string = 'none';
   id = '';
   constructor(
     private manuscriptService: ManuscriptService,
@@ -20,7 +24,10 @@ export class FileReadComponent implements OnInit {
     this.id = this.route.snapshot.params['manuscriptId'];
     this.manuscriptService
       .getManuscript(this.id)
-      .subscribe((manuscript) => (this.manuscript = manuscript));
+      .subscribe(manuscript => 
+        {
+          this.manuscript = manuscript;
+        });
   }
 
   deleteManuscript(): void {
@@ -52,5 +59,19 @@ export class FileReadComponent implements OnInit {
           console.error('File download failed', error);
         }
       );
+  }
+
+  getOcr() : void {
+    this.currentJob = 'OCR';
+    this.manuscriptService.getOcr(this.manuscript.docId).subscribe(OCR => {
+      this.OCR = OCR;
+    });
+  }
+
+  getNlp() : void {
+    this.currentJob = 'NLP';
+    this.manuscriptService.getNlp(this.manuscript.docId).subscribe(NLP => {
+      this.NLP = NLP;
+    });
   }
 }

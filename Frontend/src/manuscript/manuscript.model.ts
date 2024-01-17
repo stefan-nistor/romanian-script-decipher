@@ -5,4 +5,5 @@ export interface Manuscript {
   yearOfPublication: number;
   filename: string;
   description: string;
+  docId: number;
 }

@@ -1,0 +1,111 @@
+{
+    "md": {
+        "nrOfRegions": 0,
+        "nrOfTranscribedRegions": 0,
+        "nrOfWordsInRegions": 0,
+        "nrOfLines": 0,
+        "nrOfTranscribedLines": 0,
+        "nrOfWordsInLines": 0,
+        "nrOfWords": 0,
+        "nrOfTranscribedWords": 0,
+        "nrOfCharsInLines": 0,
+        "nrOfNew": 1,
+        "nrOfInProgress": 0,
+        "nrOfDone": 0,
+        "nrOfFinal": 0,
+        "nrOfGT": 0,
+        "docId": 1738524,
+        "title": "BCUTimișoara",
+        "uploadTimestamp": 1704729221190,
+        "uploader": "ttudor555@gmail.com",
+        "uploaderId": 208474,
+        "nrOfPages": 1,
+        "pageId": 63164776,
+        "url": "https://files.transkribus.eu/Get?fileType=view&id=KEMEJNSLNRZOIEZDGLXZUQGA",
+        "thumbUrl": "https://files.transkribus.eu/Get?fileType=thumb&id=KEMEJNSLNRZOIEZDGLXZUQGA",
+        "status": 0,
+        "fimgStoreColl": "TrpDoc_DEA_1738524",
+        "origDocId": 0,
+        "collectionList": {
+            "colList": [
+                {
+                    "colId": 263554,
+                    "colName": "ttudor555@gmail.com Collection",
+                    "description": "ttudor555@gmail.com",
+                    "crowdsourcing": false,
+                    "elearning": false,
+                    "nrOfDocuments": 0
+                }
+            ]
+        },
+        "attributes": [],
+        "mainColId": 263554
+    },
+    "pageList": {
+        "pages": [
+            {
+                "pageId": 63164776,
+                "docId": 1738524,
+                "pageNr": 1,
+                "key": "KEMEJNSLNRZOIEZDGLXZUQGA",
+                "imageId": 51071724,
+                "url": "https://files.transkribus.eu/Get?id=KEMEJNSLNRZOIEZDGLXZUQGA&fileType=view",
+                "thumbUrl": "https://files.transkribus.eu/Get?id=KEMEJNSLNRZOIEZDGLXZUQGA&fileType=thumb",
+                "md5Sum": "8f66cc0e427b0367b85855f1a8547bfd",
+                "fileSize": 376256,
+                "imgFileName": "BCUTimișoara689841.jpg",
+                "tsList": {
+                    "transcripts": [
+                        {
+                            "tsId": 144573742,
+                            "parentTsId": -1,
+                            "key": "VTVBKPWLPOMSEPHTKJDBKVYK",
+                            "pageId": 63164776,
+                            "docId": 1738524,
+                            "pageNr": 1,
+                            "url": "https://files.transkribus.eu/Get?id=VTVBKPWLPOMSEPHTKJDBKVYK",
+                            "status": "NEW",
+                            "userName": "ttudor555@gmail.com",
+                            "userId": 208474,
+                            "timestamp": 1704729221190,
+                            "md5Sum": "0cc6def8fefc9de788ecbc2351a80b7d",
+                            "nrOfRegions": 0,
+                            "nrOfTranscribedRegions": 0,
+                            "nrOfWordsInRegions": 0,
+                            "nrOfLines": 0,
+                            "nrOfTranscribedLines": 0,
+                            "nrOfWordsInLines": 0,
+                            "nrOfWords": 0,
+                            "nrOfTranscribedWords": 0,
+                            "nrOfCharsInLines": 0,
+                            "fileSize": 625,
+                            "fileName": "BCUTimișoara689841.xml"
+                        }
+                    ]
+                },
+                "width": 1294,
+                "height": 1984,
+                "created": "2024-01-08T16:53:41.26+01:00",
+                "indexed": true,
+                "imageVersions": {
+                    "imageVersions": []
+                },
+                "lastIndexed": "2024-01-08T16:53:46.56+01:00"
+            }
+        ]
+    },
+    "collection": {
+        "colId": 263554,
+        "colName": "ttudor555@gmail.com Collection",
+        "description": "ttudor555@gmail.com",
+        "created": "2024-01-06T23:23:59.841+01:00",
+        "crowdsourcing": false,
+        "elearning": false,
+        "pageId": 63137059,
+        "url": "https://files.transkribus.eu/Get?fileType=view&id=DAEQZNPMDNXLWKBWOHOHPWDD",
+        "thumbUrl": "https://files.transkribus.eu/Get?fileType=thumb&id=DAEQZNPMDNXLWKBWOHOHPWDD",
+        "nrOfDocuments": 0,
+        "accountingStatus": 1
+    },
+    "edDeclList": []
+}

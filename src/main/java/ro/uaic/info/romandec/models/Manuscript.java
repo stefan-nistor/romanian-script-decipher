@@ -24,7 +24,7 @@ public class Manuscript {
     private String pathToOriginalText;
     private String pathToDecipheredText;
 
-    @Column(unique=true)
+    @Column
     private String filename;
 
     //data cand a fost adaugat
@@ -36,5 +36,7 @@ public class Manuscript {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+
+    Long docId;
 
 }

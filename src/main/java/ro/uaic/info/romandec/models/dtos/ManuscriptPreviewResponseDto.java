@@ -16,4 +16,5 @@ public class ManuscriptPreviewResponseDto {
 
     private Integer yearOfPublication;
 
+    private Long docId;
 }
