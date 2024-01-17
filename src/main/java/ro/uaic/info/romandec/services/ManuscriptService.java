@@ -15,7 +15,6 @@ import ro.uaic.info.romandec.models.Manuscript;
 import ro.uaic.info.romandec.repository.ManuscriptMetadataRepository;
 import ro.uaic.info.romandec.repository.ManuscriptRepository;
 import ro.uaic.info.romandec.repository.UserRepository;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -148,9 +146,6 @@ public class ManuscriptService {
 
             // Send manuscript to AI module and get deciphering job id
             var transmoduleManuscriptData = decipherService.uploadFile(manuscriptFile);
-//            TimeUnit.SECONDS.sleep(2);
-
-            var decipherJobId = decipherService.sendToDecipherDocument(transmoduleManuscriptData);
 
             //save into the db the manuscript with the associated metadata
             ManuscriptMetadata manuscriptMetadata = manuscriptMetadataRepository.save(ManuscriptMetadata

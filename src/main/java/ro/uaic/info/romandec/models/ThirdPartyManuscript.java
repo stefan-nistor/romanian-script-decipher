@@ -24,5 +24,6 @@ public class ThirdPartyManuscript {
     private String errors;
     private Long jobId;
     private Long docId;
-    private Long textRecognitionJobId;
+    private Long ocrJobId;
+    private Long nlpJobId;
 }

@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobStatusIdDto {
-    private String text_recognition_job_id;
+public class OCRStatusIdDto {
+    private String ocr_job_id;
 }

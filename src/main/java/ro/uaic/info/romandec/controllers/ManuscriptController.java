@@ -1,6 +1,5 @@
 package ro.uaic.info.romandec.controllers;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +43,13 @@ public class ManuscriptController {
 
     @GetMapping("/decipher-translation/{docId}")
     public ResponseEntity<Object> decipherTranslation(@PathVariable Long docId) {
-        var text = decipherService.getTranslatedText(docId);
+        var text = decipherService.getOcrText(docId);
+        return new ResponseEntity<>(text, HttpStatus.OK);
+    }
+
+    @GetMapping("/decipher-nlp/{docId}")
+    public ResponseEntity<Object> decipherNlp(@PathVariable Long docId) {
+        var text = decipherService.getNlpText(docId);
         return new ResponseEntity<>(text, HttpStatus.OK);
     }
 }

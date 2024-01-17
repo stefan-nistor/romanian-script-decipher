@@ -8,5 +8,4 @@ import java.util.UUID;
 
 public interface ThirdPartyManuscriptRepository extends JpaRepository<ThirdPartyManuscript, UUID> {
     Optional<ThirdPartyManuscript> findThirdPartyManuscriptByDocId(Long docId);
-    Optional<ThirdPartyManuscript> findThirdPartyManuscriptByTextRecognitionJobId(Long id);
 }
