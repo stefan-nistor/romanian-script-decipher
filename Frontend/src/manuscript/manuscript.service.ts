@@ -73,8 +73,17 @@ export class ManuscriptService {
     document.body.removeChild(link);
   }
 
-  getTranslation(docId: number): Observable<string> {
+  getOcr(docId: number): Observable<string> {
     const x = this.path + `/manuscript/decipher-translation/${docId}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.get<string>(x);
+  }
+
+  getNlp(docId: number): Observable<string> {
+    const x = this.path + `/manuscript/decipher-nlp/${docId}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });

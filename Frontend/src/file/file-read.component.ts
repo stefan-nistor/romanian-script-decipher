@@ -11,7 +11,9 @@ import { interval, switchMap, takeWhile } from 'rxjs';
 })
 export class FileReadComponent implements OnInit {
   manuscript!: Manuscript;
-  translation: string = '';
+  OCR: string = '';
+  NLP: string = '';
+  currentJob: string = 'none';
   id = '';
   constructor(
     private manuscriptService: ManuscriptService,
@@ -25,9 +27,6 @@ export class FileReadComponent implements OnInit {
       .subscribe(manuscript => 
         {
           this.manuscript = manuscript;
-          this.manuscriptService.getTranslation(manuscript.docId).subscribe(translation => {
-            this.translation = translation;
-          })
         });
   }
 
@@ -60,5 +59,19 @@ export class FileReadComponent implements OnInit {
           console.error('File download failed', error);
         }
       );
+  }
+
+  getOcr() : void {
+    this.currentJob = 'OCR';
+    this.manuscriptService.getOcr(this.manuscript.docId).subscribe(OCR => {
+      this.OCR = OCR;
+    });
+  }
+
+  getNlp() : void {
+    this.currentJob = 'NLP';
+    this.manuscriptService.getNlp(this.manuscript.docId).subscribe(NLP => {
+      this.NLP = NLP;
+    });
   }
 }
