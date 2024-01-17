@@ -15,5 +15,5 @@ An Interdisciplinary Approach Using Deep Learning and Natural Language Processin
 
 # Documents and Resources
 - [State-of-the-art + Risk Assessment](https://docs.google.com/document/d/1DDBpgz3gNW57hlS05ogwZ1Yii4meucEgetBLj5s9WPs/edit?usp=sharing)
-- [Tehnical report](https://docs.google.com/document/d/1zNjN4TXwo3Ne5D5_wOm7lqXfD6NtRLK8p27w1DmU6HI/edit?usp=sharing)
-    
+- [Technical report](https://docs.google.com/document/d/1Oy957JOfPpRrfnVogpQLtJJjen7W3V1f8x5q-WquH0g/edit?usp=sharing)
+- [Unit Testing + Use of AI](https://docs.google.com/document/d/16b4NP1zZm_bhBB3h9K9QdiLBQrsrnfjmdBsHuA7NW5o/edit?usp=sharing)    
