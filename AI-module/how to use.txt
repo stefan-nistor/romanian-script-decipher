@@ -1,7 +1,0 @@
-1. Call GET -> /api/v1/third-party/login
-
-2. POST -> /api/v1/upload-manuscript (Put in the body of the request a parameter called "file" of type File)
-   This POST request returns a dict with the next values: message (str), filename (str), errors (bool) and jobId (int). Save the filename for the next request. 
-
-3. POST -> /api/v1/ocr?filename=filename_from_above
-	The returned value will be an dict with only one value, "ocr" (str), that represents the extracted text from the manuscript.

@@ -82,7 +82,7 @@ async def apply_ocr_on_document(filename: str, document_id: int):
     job_id = manuscript_uploading.start_model_translation(document_id=document_id, session_id=transkribusAPI.session_id,
                                                           collection_id=__COLLECTION_ID__, model_id=__HTR_MODEL_ID__)
 
-    return {"text_recognition_job_id": job_id["text_recognition_job_id"]}
+    return {"ocr_job_id": job_id["text_recognition_job_id"]}
 
 @prefix_router.get("/ocr/get_translated_xml_text", status_code=200)
 async def get_translated_ocr_xml(filename: str, document_id: int):
@@ -103,7 +103,7 @@ async def apply_nlp_on_document(filename: str, document_id: int):
     job_id = manuscript_uploading.start_model_translation(document_id=document_id, session_id=transkribusAPI.session_id,
                                                           collection_id=__COLLECTION_ID__, model_id=__NLP_MODEL_ID__)
 
-    return {"text_recognition_job_id": job_id["text_recognition_job_id"]}
+    return {"nlp_job_id": job_id["text_recognition_job_id"]}
 
 @prefix_router.get("/nlp/get_translated_xml_text", status_code=200)
 async def get_translated_nlp_xml(filename: str, document_id: int):

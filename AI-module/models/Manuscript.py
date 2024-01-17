@@ -113,7 +113,8 @@ class ManuscriptUploading:
                                             if "Unicode" in teKid.tag:
                                                 text = teKid.text
                                                 print(text)
-                                                final_text += text
+                                                if text is not None:
+                                                    final_text += text
                                 final_text += '\n'
 
         return final_text
